@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef ESP32_DEVKIT_V1
-#define ESP32_DEVKIT_V1
+#ifndef FEATHERESP32
+#define FEATHERESP32
 
 #define ESC_ENABLED true
 #define RAD_ENABLED false
@@ -30,23 +30,23 @@
 #define NVS_WST_PASS_KEY "WST_pass"
 
 // Battery related defines
-#define BATTERY_CAPACITY 2200 // in mAh unit
-#define LOW_BAT_THRESHOLD 20 // in % unit
+#define BATTERY_CAPACITY 2200    // in mAh unit
+#define LOW_BAT_THRESHOLD 20     // in % unit
 #define CRITICAL_BAT_THRESHOLD 7 // in % unit
 
 /**
  * @brief WiFi Station default params.
  * 
  */
-#define WST_SSID    ""
-#define WST_PASS    ""
+#define WST_SSID ""
+#define WST_PASS ""
 
 /**
  * @brief WiFi AP default params.
  * 
  */
 #define WAP_SSID "io.locha.ap"
-#define WAP_PASS ""
+#define WAP_PASS "mypassword"
 #define WAP_CHANNEL 6
 #define WAP_MAXCONN 4
 
@@ -55,9 +55,9 @@
  * 
  */
 #if CONFIG_FREERTOS_UNICORE
-    #define ARDUINO_RUNNING_CORE 0
+#define ARDUINO_RUNNING_CORE 0
 #else
-    #define ARDUINO_RUNNING_CORE 1
+#define ARDUINO_RUNNING_CORE 1
 #endif // CONFIG_FREERTOS_UNICORE
 
-#endif // ESP32_DEVKIT_V1
+#endif // FEATHERESP32
