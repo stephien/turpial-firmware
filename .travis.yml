@@ -32,8 +32,4 @@ install:
     - platformio update
 script:
     - platformio run
-    - echo "Run desktop (native) tests on Travis.CI Linux machine"
-    - platformio test -e featheresp32
-
-    - echo "List remote devices"
-    - platformio remote device list
+    - platformio remote -a fraskote test -e featheresp32
