@@ -31,5 +31,5 @@ install:
     - pip install -U platformio
     - platformio update
 script:
-    - platformio run
-    - platformio remote -a fraskote test -e featheresp32
+# - platformio run
+    - platformio remote test -e featheresp32 --test-port /dev/ttyUSB0
