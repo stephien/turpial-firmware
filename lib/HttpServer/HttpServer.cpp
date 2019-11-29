@@ -18,23 +18,21 @@ HttpServer::~HttpServer()
 {
 }
 
-
-/* void HttpServer::start()
+void HttpServer::setPort(int port)
 {
-    netconn_listen(conn_);
-    ESP_LOGI(TAG, "server listening");
-
-
-    do {
-        err_ = netconn_accept(conn_, &newconn_);
-        if (err_ == ERR_OK) {
-            xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY);
-            //http_serve(newconn_)
-        }
-    } while (err_ == ESP_OK);
-    netconn_close(conn_);
-    netconn_delete(conn_);
-    ESP_LOGE(TAG, "task ending, rebooting board");
-    esp_restart();
+    this->port_ = port;
 }
+
+void HttpServer::setTimeout(int16_t time)
+{
+    this->timeout_ = time;
+}
+
+/**
+ * @brief with the next command we can test the connection with server
+ * 
  */
+
+/*
+curl -i --no-buffer -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 192.168.4.1:8080" -H "Origin: http://192.168.4.1:8080" -H "Sec-WebSocket-Key: SGVsbG8sIHdvcmxkIQ==" -H "Sec-WebSocket-Version: 13" 192.168.4.1:8080/
+*/

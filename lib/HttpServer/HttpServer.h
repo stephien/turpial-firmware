@@ -11,7 +11,6 @@
 #include "freertos/task.h"
 
 
-
 const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
 static QueueHandle_t client_queue;
 static const int client_queue_size = 10;
@@ -21,10 +20,9 @@ class HttpServer : public Task
 public:
     HttpServer();
     virtual ~HttpServer();
-    void setTimeout(int timeout);
+    void setTimeout(int16_t time);
+    void setPort(int port);
 
-   // void serverTask(void* data);
-    //
     virtual void run(void* data) override
     {
         const static char* TAG = "server_task";
@@ -41,13 +39,12 @@ public:
                 ESP_LOGI(TAG, "new client");
                 xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY);
                 //http_serve(newconn);
+            } else {
+                netconn_close(conn_);
+                netconn_delete(conn_);
+                ESP_LOGE(TAG, "task ending,");
             }
         } while (1);
-        netconn_close(conn_);
-        netconn_delete(conn_);
-        ESP_LOGE(TAG, "task ending, rebooting board");
-        //esp_restart();
-      
     }
 
 private:
@@ -61,21 +58,4 @@ private:
     int port_ = 80;
 };
 
-
-/* class Hellos : public Task
-{
-    void run(void* data) override
-    {
-        char* pc_task_name = reinterpret_cast<char*>(data);
-
-        for (int i = 10; i >= 0; i--) {
-          
-            printf("Restarting in %d seconds...\n", i);
-              ESP_LOGI("Hola", "server listening");
-            vTaskDelay(1000 / portTICK_RATE_MS);
-        }
-        esp_restart();
-        return;
-    }
-}; */
 #endif
