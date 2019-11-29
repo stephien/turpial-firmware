@@ -255,7 +255,7 @@ char* WebSocket::wsHashHandshake(char* handshake, uint8_t len)
     unsigned int ret_len;
 
     if (!len) return NULL;
-    ret = malloc(32);
+    ret = (char*)malloc(32);
 
     memcpy(key, handshake, len);
     strlcpy(&key[len], hash, sizeof(key));

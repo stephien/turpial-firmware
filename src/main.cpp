@@ -64,10 +64,11 @@ esp_err_t getIsConfigured(bool& is_configured)
 }
 
 
-static server::HttpServer *httpServer;
+
 
 extern "C" void app_main()
 {
+    static server::HttpServer *httpServer;
     esp_err_t err;
     wifi::WiFiEventHandler* event_handler;
     event_handler = new wifi::WiFiEventHandler();
