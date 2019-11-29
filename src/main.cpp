@@ -16,6 +16,7 @@
 #include "sdkconfig.h"
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+//#include "Task.h"
 
 #include "NVS.h"
 #include "WiFiMode.h"
@@ -24,7 +25,42 @@
 
 #include "defaults.h"
 
+#include "WebSocket_Task.h"
+
+#include "HttpServer.h"
+#include "testRTOSCPP/Hello.h"
 static const char* TAG = "app_main";
+//WebSocket frame receive queue
+QueueHandle_t WebSocket_rx_queue;
+
+void task_process_WebSocket( void *pvParameters ){
+    (void)pvParameters;
+
+    //frame buffer
+    WebSocket_frame_t __RX_frame;
+
+    //create WebSocket RX Queue
+    WebSocket_rx_queue = xQueueCreate(10,sizeof(WebSocket_frame_t));
+
+    while (1){
+        //receive next WebSocket frame from queue
+        if(xQueueReceive(WebSocket_rx_queue,&__RX_frame, 3*portTICK_PERIOD_MS)==pdTRUE){
+
+        	//write frame inforamtion to UART
+        	printf("New Websocket frame. Length %d, payload %.*s \r\n", __RX_frame.payload_length, __RX_frame.payload_length, __RX_frame.payload);
+
+        	//loop back frame
+        	WS_write_data(__RX_frame.payload, __RX_frame.payload_length);
+
+        	//free memory
+			if (__RX_frame.payload != NULL)
+				free(__RX_frame.payload);
+
+        }
+    }
+}
+
+
 
 esp_err_t getIsConfigured(bool& is_configured)
 {
@@ -59,6 +95,13 @@ esp_err_t getIsConfigured(bool& is_configured)
     return ESP_OK;
 }
 
+
+static HttpServer *httpServer;
+/* 
+static void http_task(void* params) {
+char* data = "heloWorld";
+httpServer->serverTask((void*)data);
+} */
 
 extern "C" void app_main()
 {
@@ -121,4 +164,13 @@ extern "C" void app_main()
     wifi_mode->setWiFiEventHandler(event_handler);
     err = wifi_mode->start();
     // TODO: app loop
+    vTaskDelay(1000 / portTICK_RATE_MS);
+
+    httpServer = new HttpServer();
+    httpServer->start();
+   
+    //httpServer->setStackSize(4000);
+    //httpServer->start((void*)pcTask1); */
+   // httpServer->start((void*)pcTask1);
+
 }
