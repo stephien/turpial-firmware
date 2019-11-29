@@ -28,7 +28,7 @@
 
 static const char* TAG = "app_main";
 //WebSocket frame receive queue
-QueueHandle_t WebSocket_rx_queue;
+//QueueHandle_t WebSocket_rx_queue;
 
 esp_err_t getIsConfigured(bool& is_configured)
 {
@@ -64,7 +64,7 @@ esp_err_t getIsConfigured(bool& is_configured)
 }
 
 
-static HttpServer *httpServer;
+static server::HttpServer *httpServer;
 
 extern "C" void app_main()
 {
@@ -128,7 +128,7 @@ extern "C" void app_main()
     err = wifi_mode->start();
     // TODO: app loop
 
-    httpServer = new HttpServer();
+    httpServer = new server::HttpServer();
     httpServer->start();
    
 

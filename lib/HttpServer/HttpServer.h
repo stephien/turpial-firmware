@@ -11,6 +11,8 @@
 #include "freertos/task.h"
 
 
+namespace server {
+
 const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
 static QueueHandle_t client_queue;
 static const int client_queue_size = 10;
@@ -22,6 +24,8 @@ public:
     virtual ~HttpServer();
     void setTimeout(int16_t time);
     void setPort(int port);
+    void handleClientsTask(void* pvParameters);
+    //void handleHttpConnections(struct netconn *conn);
 
     virtual void run(void* data) override
     {
@@ -56,6 +60,8 @@ private:
     static err_t err_;
     int16_t timeout_;
     int port_ = 80;
+    void handleHttpConnections(struct netconn *conn);
 };
 
+}
 #endif
