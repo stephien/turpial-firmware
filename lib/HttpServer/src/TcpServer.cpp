@@ -9,6 +9,7 @@ const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 TcpServer::TcpServer()
 {
     client_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
+    persisten_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
     conn_ = new netconn();
     netconn_bind(conn_, NULL, port_);
 }
@@ -123,6 +124,7 @@ void TcpServer::handleTcpConnections(struct netconn* conn)
                 ESP_LOGI(TAG, "Requesting websocket on /");
                 //here we need to send a signal to read new socket connection inside websocket server class
                 //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
+                xQueueSendToBack(persisten_queue,conn, portMAX_DELAY); //this queue contain all future websocket clients
                 netbuf_delete(inbuf);
             } else {
                 netbuf_delete(inbuf);

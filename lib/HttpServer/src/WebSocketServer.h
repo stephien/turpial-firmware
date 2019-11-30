@@ -73,6 +73,8 @@ public:
 
     static void ws_server_task(void* pvParameters);
 
+    void handleWebsocket();
+
 
 private:
 };

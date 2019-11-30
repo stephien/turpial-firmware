@@ -34,6 +34,21 @@ static void background_callback(struct netconn* conn, enum netconn_evt evt, u16_
     }
 }
 
+
+void WebSocketServer::handleWebsocket()
+{
+    const static char* TAG = "handleClients";
+    struct netconn* conn;
+    ESP_LOGI(TAG, "task starting");
+    for (;;) {
+        xQueueReceive(persisten_queue, &conn, portMAX_DELAY);
+        if (!conn) continue;
+        ESP_LOGI("WEBSOCKET NEW","YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!");
+    }
+    vTaskDelete(NULL);
+}
+
+
 void WebSocketServer::handle_read(uint8_t num)
 {
     ws_header_t header;
