@@ -34,7 +34,7 @@ void TcpServer::runServer()
     ESP_LOGI(TAG, "server listening");
     //Waitting for new connections forever
     do {
-        //This function blocks the process until a connection request from a remote host arrives 
+        //This function blocks the process until a connection request from a remote host arrives
         //on the TCP connection conn.
         err = netconn_accept(conn_, &newconn_);
         //when new connection, write this one inside client queue to be read in other different inner loop task
@@ -78,7 +78,7 @@ void TcpServer::handleClients()
 
 void TcpServer::start()
 {
-    xTaskCreate(&callbackServerTask, "Server Task-->>", 8000, this, 9, NULL);      //running http server
+    xTaskCreate(&callbackServerTask, "Server Task-->>", 8000, this, 9, NULL);  //running http server
     xTaskCreate(&callbackClientsTask, "Client Task-->>", 4000, this, 6, NULL); //listen new connections
 }
 
@@ -98,52 +98,57 @@ void TcpServer::setTimeout(int16_t time)
 void TcpServer::handleTcpConnections(struct netconn* conn)
 {
     const static char* TAG = "TCP Connections";
-    struct netbuf* inbuf;
-    static char* buf;
-    static uint16_t buflen;
     static err_t err;
+    struct
+    {
+        struct netbuf* inbuf;
+        char* buf;
+        uint16_t buflen;
+        err_t err;
+    } connection;
 
 
     netconn_set_recvtimeout(conn, 1000); // allow a connection timeout of 1 second
     ESP_LOGI(TAG, "reading from client...");
-    err = netconn_recv(conn, &inbuf);
+    err = netconn_recv(conn, &connection.inbuf);
     ESP_LOGI(TAG, "read from client");
 
     if (err == ERR_OK) {
-        netbuf_data(inbuf, (void**)&buf, &buflen);
-        if (buf) {
+        netbuf_data(connection.inbuf, (void**)&connection.buf, &connection.buflen);
+        if (connection.buf) {
             // default page for http
-            if (strstr(buf, "GET / ") && !strstr(buf, "Upgrade: websocket")) {
+            if (strstr(connection.buf, "GET / ") && !strstr(connection.buf, "Upgrade: websocket")) {
                 ESP_LOGI(TAG, "Sending /");
                 netconn_write(conn, HTML_HEADER, sizeof(HTML_HEADER) - 1, NETCONN_NOCOPY);
                 netconn_write(conn, "HI form ESP32 LOCAH MESH TEAM REPLY TO HTTP REQUEST", 29, NETCONN_NOCOPY);
                 netconn_close(conn);
                 netconn_delete(conn);
-                netbuf_delete(inbuf);
-            } else if (strstr(buf, "GET / ") && strstr(buf, "Upgrade: websocket")) { //check headers and upgrade to websockets
+                netbuf_delete(connection.inbuf);
+            } else if (strstr(connection.buf, "GET / ") && strstr(connection.buf, "Upgrade: websocket")) { //check headers and upgrade to websockets
                 ESP_LOGI(TAG, "Requesting websocket on /");
                 //here we need to send a signal to read new socket connection inside websocket server class
                 //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
-                xQueueSendToBack(persisten_queue,conn, portMAX_DELAY); //this queue contain all future websocket clients
-                netbuf_delete(inbuf);
+
+                xQueueSendToBack(persisten_queue, &connection, portMAX_DELAY); //this queue contain all future websocket clients
+                netbuf_delete(connection.inbuf);
             } else {
-                netbuf_delete(inbuf);
+                netbuf_delete(connection.inbuf);
                 ESP_LOGI(TAG, "Unknown request");
                 netconn_close(conn);
                 netconn_delete(conn);
-                netbuf_delete(inbuf);
+                netbuf_delete(connection.inbuf);
             }
         } else { //if buf
             ESP_LOGI(TAG, "Unknown request (empty?...)");
             netconn_close(conn);
             netconn_delete(conn);
-            netbuf_delete(inbuf);
+            netbuf_delete(connection.inbuf);
         }
     } else { // if err==ERR_OK
         ESP_LOGI(TAG, "error on read, closing connection");
         netconn_close(conn);
         netconn_delete(conn);
-        netbuf_delete(inbuf);
+        netbuf_delete(connection.inbuf);
     }
 }
 

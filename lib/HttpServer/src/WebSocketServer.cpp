@@ -34,16 +34,68 @@ static void background_callback(struct netconn* conn, enum netconn_evt evt, u16_
     }
 }
 
+// handles websocket events
+void websocket_callback(uint8_t num,WEBSOCKET_TYPE_t type,char* msg,uint64_t len) {
+  const static char* TAG = "websocket_callback";
+  int value;
+
+  switch(type) {
+    case WEBSOCKET_CONNECT:
+      ESP_LOGI(TAG,"client %i connected!",num);
+      break;
+    case WEBSOCKET_DISCONNECT_EXTERNAL:
+      ESP_LOGI(TAG,"client %i sent a disconnect message",num);
+      break;
+    case WEBSOCKET_DISCONNECT_INTERNAL:
+      ESP_LOGI(TAG,"client %i was disconnected",num);
+      break;
+    case WEBSOCKET_DISCONNECT_ERROR:
+      ESP_LOGI(TAG,"client %i was disconnected due to an error",num);
+      break;
+    case WEBSOCKET_TEXT:
+      if(len) {
+        switch(msg[0]) {
+          case 'L':
+            if(sscanf(msg,"L%i",&value)) {
+              ESP_LOGI(TAG,"LED value: %i",value);
+              //ws_server_send_text_all_from_callback(msg,len); // broadcast it!
+            }
+        }
+      }
+      break;
+    case WEBSOCKET_BIN:
+      ESP_LOGI(TAG,"client %i sent binary message of size %i:\n%s",num,(uint32_t)len,msg);
+      break;
+    case WEBSOCKET_PING:
+      ESP_LOGI(TAG,"client %i pinged us with message of size %i:\n%s",num,(uint32_t)len,msg);
+      break;
+    case WEBSOCKET_PONG:
+      ESP_LOGI(TAG,"client %i responded to the ping",num);
+      break;
+  }
+}
+
 
 void WebSocketServer::handleWebsocket()
 {
     const static char* TAG = "handleClients";
-    struct netconn* conn;
+    struct
+    {
+        struct netconn* conn;
+        struct netbuf* inbuf;
+        char* buf;
+        uint16_t buflen;
+        err_t err;
+    } connection;
+
+    //struct netconn* conn;
     ESP_LOGI(TAG, "task starting");
     for (;;) {
-        xQueueReceive(persisten_queue, &conn, portMAX_DELAY);
-        if (!conn) continue;
+        xQueueReceive(server::persisten_queue, &connection, portMAX_DELAY); //receive clients from Tcp Server
+        connection.conn = static_cast<netconn*>(connection.conn);
+        if (!connection.conn) continue;
         ESP_LOGI("WEBSOCKET NEW","YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!");
+        ws_server_add_client(connection.conn,connection.buf,connection.buflen,"/", websocket_callback);
     }
     vTaskDelete(NULL);
 }

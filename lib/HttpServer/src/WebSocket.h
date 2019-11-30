@@ -69,7 +69,7 @@ typedef struct {
 } ws_client_t;
 
 
-class WebSocket : public TcpServer
+class WebSocket// : public TcpServer
 {
 public:
     WebSocket();
