@@ -17,6 +17,7 @@ WebSocketServer::~WebSocketServer()
 {
 }
 
+
 static SemaphoreHandle_t xwebsocket_mutex;                // to lock the client array
 static QueueHandle_t xwebsocket_queue;                    // to hold the clients that send messages
 static ws_client_t clients[WEBSOCKET_SERVER_MAX_CLIENTS]; // holds list of clients
@@ -71,7 +72,7 @@ void WebSocketServer::handle_read(uint8_t num)
     if (msg) free(msg);
 }
 
-void ws_server_task(void* instanceParameter)
+void ws_server_task(void* instance)
 {
     struct netconn* conn;
 
@@ -93,13 +94,11 @@ void ws_server_task(void* instanceParameter)
 
     for (;;) {
         xQueueReceive(xwebsocket_queue, &conn, portMAX_DELAY);
-        if (!conn) continue; // if the connection was NULL, ignore it
-
+        if (!conn) continue;                             // if the connection was NULL, ignore it
         xSemaphoreTake(xwebsocket_mutex, portMAX_DELAY); // take access
         for (int i = 0; i < WEBSOCKET_SERVER_MAX_CLIENTS; i++) {
             if (clients[i].conn == conn) {
-                //handle_read(i);
-                static_cast<WebSocketServer*>(instanceParameter)->handle_read(i); //calling WebsocketServer members from static function
+                static_cast<WebSocketServer*>(instance)->handle_read(i); //calling WebsocketServer members from static function
                 break;
             }
         }

@@ -5,7 +5,7 @@
 #include "WebSocket.h"
 #include "esp_log.h"
 #include "sdkconfig.h"
-#include "HttpServer.h"
+#include "TcpServer.h"
 
 
 namespace server {
@@ -21,7 +21,7 @@ namespace server {
 #endif
 
 
-class WebSocketServer :  public WebSocket, public HttpServer
+class WebSocketServer: WebSocket
 {
 public:
     WebSocketServer();

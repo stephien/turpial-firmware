@@ -1,4 +1,4 @@
-#include "HttpServer.h"
+#include "TcpServer.h"
 #include "WebSocketServer.h"
 #include <errno.h>
 #include <string.h>
@@ -6,7 +6,7 @@
 namespace server {
 const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 
-HttpServer::HttpServer()
+TcpServer::TcpServer()
 {
     client_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
     conn_ = new netconn();
@@ -14,18 +14,14 @@ HttpServer::HttpServer()
 }
 
 
-HttpServer::~HttpServer()
+TcpServer::~TcpServer()
 {
-  xQueueReset(client_queue);
+    xQueueReset(client_queue);
 }
 
-//wrapper to use member functions inside callbacks for tasks
-static void runServerTask(void* instance)
-{
-    static_cast<HttpServer*>(instance)->runServer(); //calling member function class inside callback Task freeRTOS
-}
+
 //task server should have to run forever
-void HttpServer::runServer()
+void TcpServer::runServer()
 {
     const static char* TAG = "server_task";
     static err_t err;
@@ -37,12 +33,14 @@ void HttpServer::runServer()
     ESP_LOGI(TAG, "server listening");
     //Waitting for new connections forever
     do {
+        //This function blocks the process until a connection request from a remote host arrives 
+        //on the TCP connection conn.
         err = netconn_accept(conn_, &newconn_);
-        //when new connection write this one inside client queue to be read in other inner loop task
+        //when new connection, write this one inside client queue to be read in other different inner loop task
         //this queue will be read inside handleClients function
         if (err == ERR_OK) {
             ESP_LOGI(TAG, "new client");
-            xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY);
+            xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY); //this queue contain all connected clients
             //http_serve(newconn);
         } else {
             netconn_close(conn_);
@@ -53,18 +51,12 @@ void HttpServer::runServer()
 }
 
 
-//wrapper // to execute handleClients 
-void handleClientsTask(void* instance)
-{
-    static_cast<HttpServer*>(instance)->handleClients();
-}
-
 /**
  * @brief this function read client_queue and handle connections to see headers
- * and know the type of request
+ * and know the type of request, it need to run forever loop 
  * 
  */
-void HttpServer::handleClients()
+void TcpServer::handleClients()
 {
     const static char* TAG = "handleClients";
     struct netconn* conn;
@@ -72,37 +64,39 @@ void HttpServer::handleClients()
     for (;;) {
         xQueueReceive(client_queue, &conn, portMAX_DELAY);
         if (!conn) continue;
-        handleHttpConnections(conn);
+        handleTcpConnections(conn);
     }
     vTaskDelete(NULL);
 }
 
-void HttpServer::start()
+/**
+ * @brief this function create and start the server and task to read the queue to see new clients
+ * 
+ * 
+ */
+
+void TcpServer::start()
 {
-    xTaskCreate(&runServerTask, "TaskServer", 4000, this, 9, NULL);      //running http server
-    xTaskCreate(&handleClientsTask, "Client-Task", 4000, this, 6, NULL); //listen new connections
+    xTaskCreate(&callbackServerTask, "Server Task-->>", 8000, this, 9, NULL);      //running http server
+    xTaskCreate(&callbackClientsTask, "Client Task-->>", 4000, this, 6, NULL); //listen new connections
 }
 
 
-
-
-void HttpServer::setPort(int port)
+void TcpServer::setPort(int port)
 {
     this->port_ = port;
 }
 
-void HttpServer::setTimeout(int16_t time)
+void TcpServer::setTimeout(int16_t time)
 {
     this->timeout_ = time;
 }
 
 
 // serves any clients
-void HttpServer::handleHttpConnections(struct netconn* conn)
+void TcpServer::handleTcpConnections(struct netconn* conn)
 {
-    const static char* TAG = "http_server";
-    const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
-
+    const static char* TAG = "TCP Connections";
     struct netbuf* inbuf;
     static char* buf;
     static uint16_t buflen;
@@ -113,16 +107,26 @@ void HttpServer::handleHttpConnections(struct netconn* conn)
     ESP_LOGI(TAG, "reading from client...");
     err = netconn_recv(conn, &inbuf);
     ESP_LOGI(TAG, "read from client");
+
     if (err == ERR_OK) {
         netbuf_data(inbuf, (void**)&buf, &buflen);
         if (buf) {
-            if (strstr(buf, "GET / ") && strstr(buf, "Upgrade: websocket")) {
-                ESP_LOGI(TAG, "Requesting websocket on /");
-                //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
-                //netbuf_delete(inbuf);
-            } else { //esto se hizo para que funcione el wensocket javascript solamente
+            // default page for http
+            if (strstr(buf, "GET / ") && !strstr(buf, "Upgrade: websocket")) {
+                ESP_LOGI(TAG, "Sending /");
+                netconn_write(conn, HTML_HEADER, sizeof(HTML_HEADER) - 1, NETCONN_NOCOPY);
+                netconn_write(conn, "HI form ESP32 LOCAH MESH TEAM REPLY TO HTTP REQUEST", 29, NETCONN_NOCOPY);
+                netconn_close(conn);
+                netconn_delete(conn);
                 netbuf_delete(inbuf);
-                ESP_LOGI(TAG,"Unknown request");
+            } else if (strstr(buf, "GET / ") && strstr(buf, "Upgrade: websocket")) { //check headers and upgrade to websockets
+                ESP_LOGI(TAG, "Requesting websocket on /");
+                //here we need to send a signal to read new socket connection inside websocket server class
+                //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
+                netbuf_delete(inbuf);
+            } else {
+                netbuf_delete(inbuf);
+                ESP_LOGI(TAG, "Unknown request");
                 netconn_close(conn);
                 netconn_delete(conn);
                 netbuf_delete(inbuf);

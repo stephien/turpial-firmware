@@ -1,7 +1,7 @@
 #ifndef WEBSOCKET_H
 #define WEBSOCKET_H
 
-#include "Task.h"
+#include "TcpServer.h"
 #include "esp_log.h"
 #include "lwip/api.h"
 
@@ -69,7 +69,7 @@ typedef struct {
 } ws_client_t;
 
 
-class WebSocket //: public Task
+class WebSocket : public TcpServer
 {
 public:
     WebSocket();
@@ -90,13 +90,6 @@ public:
     char* wsHashHandshake(char* key, uint8_t len); 
     void wsGenerateMask(ws_header_t* header);   
     void wsEncryptDecrypt(char* msg, ws_header_t header);                                               // returns string of output
-
-
-   /*  virtual void run(void* data) override
-    {
-        while (1)
-            ;
-    } */
 
 private:
 };
