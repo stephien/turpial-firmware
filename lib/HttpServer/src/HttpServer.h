@@ -11,7 +11,7 @@ namespace server {
 const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
 static QueueHandle_t client_queue;
 static const int client_queue_size = 10;
-
+const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 class HttpServer : public Task
 {
 public:
@@ -21,7 +21,7 @@ public:
     void setPort(int port);
     void handleClientsTask(void* pvParameters);
     //void handleHttpConnections(struct netconn *conn);
-
+    
     virtual void run(void* data) override
     {
         const static char* TAG = "server_task";
@@ -43,7 +43,7 @@ public:
                 netconn_delete(conn_);
                 ESP_LOGE(TAG, "task ending,");
             }
-        } while (1);
+        } while (true);
     }
 
 private:
