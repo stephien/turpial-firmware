@@ -21,7 +21,7 @@ namespace server {
 #endif
 
 
-class WebSocketServer: public TcpServer, public WebSocket
+class WebSocketServer: public TcpServer, private WebSocket
 {
 public:
     WebSocketServer();

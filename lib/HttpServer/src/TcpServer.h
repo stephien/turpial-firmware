@@ -42,7 +42,7 @@ private:
     inline static void callbackServerTask(void* context) { static_cast<TcpServer*>(context)->runServer(); }
     //wrapper // to execute handleClients
     inline static void callbackClientsTask(void* context) { static_cast<TcpServer*>(context)->handleClients(); }
-
+    void deleteConnectionObject(netconn* conn);
 };
 
 } // namespace server
