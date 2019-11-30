@@ -33,7 +33,7 @@ private:
     int16_t timeout_;
     int port_ = 80;
     void handleHttpConnections(struct netconn* conn);
-    static const int client_queue_size = 10;
+    static const int client_queue_size = 5;
 };
 
 } // namespace server

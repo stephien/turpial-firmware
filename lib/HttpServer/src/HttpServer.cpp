@@ -35,8 +35,11 @@ void HttpServer::runServer()
     netconn_bind(conn_, NULL, port_);
     netconn_listen(conn_);
     ESP_LOGI(TAG, "server listening");
+    //Waitting for new connections forever
     do {
         err = netconn_accept(conn_, &newconn_);
+        //when new connection write this one inside client queue to be read in other inner loop task
+        //this queue will be read inside handleClients function
         if (err == ERR_OK) {
             ESP_LOGI(TAG, "new client");
             xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY);
@@ -50,13 +53,17 @@ void HttpServer::runServer()
 }
 
 
-//wrapper
+//wrapper // to execute handleClients 
 void handleClientsTask(void* instance)
 {
     static_cast<HttpServer*>(instance)->handleClients();
 }
 
-// receives clients from queue, handles them
+/**
+ * @brief this function read client_queue and handle connections to see headers
+ * and know the type of request
+ * 
+ */
 void HttpServer::handleClients()
 {
     const static char* TAG = "handleClients";

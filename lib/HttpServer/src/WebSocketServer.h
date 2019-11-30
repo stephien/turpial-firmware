@@ -1,10 +1,11 @@
 #ifndef WEBSOCKETSERVER_H
 #define WEBSOCKETSERVER_H
 
-#include "Task.h"
+
 #include "WebSocket.h"
 #include "esp_log.h"
 #include "sdkconfig.h"
+#include "HttpServer.h"
 
 
 namespace server {
@@ -20,7 +21,7 @@ namespace server {
 #endif
 
 
-class WebSocketServer :  public WebSocket, public Task
+class WebSocketServer :  public WebSocket, public HttpServer
 {
 public:
     WebSocketServer();
@@ -71,11 +72,7 @@ public:
     bool prepare_response(char* buf,uint32_t buflen,char* handshake); 
 
     static void ws_server_task(void* pvParameters);
-    virtual void run(void* data) override
-    {
-        while (1)
-            ;
-    }
+
 
 private:
 };
