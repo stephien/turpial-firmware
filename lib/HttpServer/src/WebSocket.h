@@ -69,7 +69,7 @@ typedef struct {
 } ws_client_t;
 
 
-class WebSocket : public Task
+class WebSocket //: public Task
 {
 public:
     WebSocket();
@@ -92,11 +92,11 @@ public:
     void wsEncryptDecrypt(char* msg, ws_header_t header);                                               // returns string of output
 
 
-    virtual void run(void* data) override
+   /*  virtual void run(void* data) override
     {
         while (1)
             ;
-    }
+    } */
 
 private:
 };

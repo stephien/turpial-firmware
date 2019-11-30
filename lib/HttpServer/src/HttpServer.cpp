@@ -1,10 +1,7 @@
 #include "HttpServer.h"
+#include "WebSocketServer.h"
 #include <string.h>
 #include <errno.h>
-
-#include "freertos/FreeRTOS.h"
-#include "freertos/queue.h"
-#include "freertos/task.h"
 
 namespace server {
 HttpServer::HttpServer()
@@ -76,10 +73,10 @@ void HttpServer::handleHttpConnections(struct netconn *conn) {
       // default page websocket
       else if(strstr(buf,"GET / ") && strstr(buf,"Upgrade: websocket")) {
         ESP_LOGI(TAG,"Requesting websocket on /");
-        //ws_server_add_client(conn,buf,buflen,"/", websocket_callback);
+        //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
         netbuf_delete(inbuf);
       } else {//esto se hizo para que funcione el wensocket javascript solamente
-         //ws_server_add_client(conn,buf,buflen,"/", websocket_callback);
+         //wsServerAddClient(conn,buf,buflen,"/", websocketCallback);
         netbuf_delete(inbuf);
         
         // ESP_LOGI(TAG,"Unknown request");
