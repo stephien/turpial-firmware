@@ -10,41 +10,18 @@ namespace server {
 
 const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
 static QueueHandle_t client_queue;
-static const int client_queue_size = 10;
-const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
-class HttpServer : public Task
+
+
+class HttpServer
 {
 public:
     HttpServer();
     virtual ~HttpServer();
     void setTimeout(int16_t time);
     void setPort(int port);
-    void handleClientsTask(void* pvParameters);
-    //void handleHttpConnections(struct netconn *conn);
-    
-    virtual void run(void* data) override
-    {
-        const static char* TAG = "server_task";
-        static err_t err;
-        client_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
-
-        conn_ = netconn_new(NETCONN_TCP);
-        netconn_bind(conn_, NULL, 8080);
-        netconn_listen(conn_);
-        ESP_LOGI(TAG, "server listening");
-        do {
-            err = netconn_accept(conn_, &newconn_);
-            if (err == ERR_OK) {
-                ESP_LOGI(TAG, "new client");
-                xQueueSendToBack(client_queue, &newconn_, portMAX_DELAY);
-                //http_serve(newconn);
-            } else {
-                netconn_close(conn_);
-                netconn_delete(conn_);
-                ESP_LOGE(TAG, "task ending,");
-            }
-        } while (true);
-    }
+    void handleClients(void);
+    void start(void);
+    void runServer(void);
 
 private:
     struct netconn* conn_;
@@ -55,8 +32,9 @@ private:
     static err_t err_;
     int16_t timeout_;
     int port_ = 80;
-    void handleHttpConnections(struct netconn *conn);
+    void handleHttpConnections(struct netconn* conn);
+    static const int client_queue_size = 10;
 };
 
-}
+} // namespace server
 #endif
