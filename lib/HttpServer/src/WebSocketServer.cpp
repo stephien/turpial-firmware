@@ -11,6 +11,7 @@ namespace server {
 
 WebSocketServer::WebSocketServer()
 {
+    persisten_queue = xQueueCreate(10, sizeof(struct netconn*));
 }
 
 WebSocketServer::~WebSocketServer()
@@ -76,31 +77,41 @@ void websocket_callback(uint8_t num, WEBSOCKET_TYPE_t type, char* msg, uint64_t 
     }
 }
 
-
-void WebSocketServer::handleWebsocket()
+//read persistent queue
+static void ws_handleWebsocket_task(void* instance)
 {
+    
     const static char* TAG = "handleClients";
-    struct
+    /* struct
     {
         struct netconn* conn;
         struct netbuf* inbuf;
         char* buf;
         uint16_t buflen;
         err_t err;
-    } connection;
+    } connectionT; */
+    struct netconn* conn;
 
     //struct netconn* conn;
-    ESP_LOGI(TAG, "task starting");
+    ESP_LOGI(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!task starting");
     for (;;) {
-        xQueueReceive(server::persisten_queue, &connection, portMAX_DELAY); //receive clients from Tcp Server
-        connection.conn = static_cast<netconn*>(connection.conn);
-        if (!connection.conn) continue;
-        ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!");
-        ws_server_add_client(connection.conn, connection.buf, connection.buflen, "/", websocket_callback);
+        xQueueReceive(server::persisten_queue, &conn, portMAX_DELAY); //receive clients from Tcp Server
+         ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!"); 
+      /*   if (!connectionT.conn) continue;
+        ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!"); */
+        //static_cast<WebSocketServer*>(instance)->ws_server_add_client(connection.conn, connection.buf, connection.buflen, "/", websocket_callback);
     }
     vTaskDelete(NULL);
 }
 
+void write_queue(void* context) {
+    struct netconn* temp;
+    for(;;) {
+     xQueueSendToBack(persisten_queue,&temp , portMAX_DELAY);
+     vTaskDelay(1000 / portTICK_RATE_MS);
+    
+    }
+}
 
 void WebSocketServer::handle_read(uint8_t num)
 {
@@ -140,11 +151,11 @@ void WebSocketServer::handle_read(uint8_t num)
     if (msg) free(msg);
 }
 
-void ws_server_task(void* instance)
+static void ws_server_task(void* instance)
 {
     struct netconn* conn;
 
-
+    ESP_LOGI("-------------------------------------------------WS_SERVER_TASK", "FUNCIONANDO OK----------------------------------------");
     xwebsocket_mutex = xSemaphoreCreateMutex();
     xwebsocket_queue = xQueueCreate(WEBSOCKET_SERVER_QUEUE_SIZE, sizeof(struct netconn*));
 
@@ -178,23 +189,16 @@ void ws_server_task(void* instance)
 int WebSocketServer::ws_server_start()
 {
     if (xtask) return 0;
-#if WEBSOCKET_SERVER_PINNED
-    xTaskCreatePinnedToCore(&ws_server_task,
-        "ws_server_task",
-        WEBSOCKET_SERVER_TASK_STACK_DEPTH,
-        NULL,
-        WEBSOCKET_SERVER_TASK_PRIORITY,
-        &xtask,
-        WEBSOCKET_SERVER_PINNED_CORE);
-#else
     xTaskCreate(&ws_server_task,
         "ws_server_task",
         WEBSOCKET_SERVER_TASK_STACK_DEPTH,
         this,
         WEBSOCKET_SERVER_TASK_PRIORITY,
         &xtask);
-#endif
-    return 1;
+  
+     xTaskCreate(&ws_handleWebsocket_task,"handle_websocketTask",3000,this,5,NULL);
+    // xTaskCreate(&write_queue,"handle_websocketTask",3000,this,5,NULL);
+      return 1; 
 }
 
 int WebSocketServer::ws_server_stop()

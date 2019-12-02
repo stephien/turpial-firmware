@@ -71,9 +71,9 @@ public:
     void handle_read(uint8_t num);
     bool prepare_response(char* buf,uint32_t buflen,char* handshake); 
 
-    static void ws_server_task(void* pvParameters);
+    //static void ws_server_task(void* pvParameters);
 
-    void handleWebsocket();
+   // static void ws_handleWebsocket_task(void* parameters);
 
 
 private:

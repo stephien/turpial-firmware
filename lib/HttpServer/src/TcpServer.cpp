@@ -61,7 +61,7 @@ void TcpServer::handleClients()
 {
     const static char* TAG = "handleClients";
     struct netconn* conn;
-    ESP_LOGI(TAG, "task starting");
+    ESP_LOGI(TAG, "task starting---handle clients");
     for (;;) {
         xQueueReceive(client_queue, &conn, portMAX_DELAY);
         if (!conn) continue;
@@ -100,13 +100,14 @@ void TcpServer::handleTcpConnections(struct netconn* conn)
     const static char* TAG = "TCP Connections";
     static err_t err;
     struct
-    {
+    {   
+        struct netconn* conn;
         struct netbuf* inbuf;
         char* buf;
         uint16_t buflen;
         err_t err;
     } connection;
-
+    connection.conn = conn;
 
     netconn_set_recvtimeout(conn, 1000); // allow a connection timeout of 1 second
     ESP_LOGI(TAG, "reading from client...");

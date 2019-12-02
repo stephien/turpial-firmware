@@ -25,6 +25,7 @@
 
 #include "defaults.h"
 #include "TcpServer.h"
+#include "WebSocketServer.h"
 
 static const char* TAG = "app_main";
 //WebSocket frame receive queue
@@ -67,8 +68,8 @@ esp_err_t getIsConfigured(bool& is_configured)
 
 
 extern "C" void app_main()
-{
-    static server::TcpServer *tcpServer;
+{   static server::WebSocketServer *server;
+    //static server::TcpServer *tcpServer;
     esp_err_t err;
     wifi::WiFiEventHandler* event_handler;
     event_handler = new wifi::WiFiEventHandler();
@@ -129,8 +130,11 @@ extern "C" void app_main()
     err = wifi_mode->start();
     // TODO: app loop
 
-    tcpServer = new server::TcpServer();
-    tcpServer->start();
+  /*   tcpServer = new server::TcpServer();
+    tcpServer->start(); */
+    server = new server::WebSocketServer();
+    server->start();
+    server->ws_server_start();
    
 
 }
