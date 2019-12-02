@@ -11,7 +11,7 @@ namespace server {
 
 WebSocketServer::WebSocketServer()
 {
-    persisten_queue = xQueueCreate(10, sizeof(struct netconn*));
+    //persisten_queue = xQueueCreate(10, sizeof(struct netconn*));
 }
 
 WebSocketServer::~WebSocketServer()

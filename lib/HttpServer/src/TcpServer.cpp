@@ -4,6 +4,8 @@
 #include <string.h>
 
 namespace server {
+//extern QueueHandle_t client_queue;
+QueueHandle_t persisten_queue;
 const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 
 TcpServer::TcpServer()

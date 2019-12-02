@@ -9,8 +9,10 @@
 namespace server {
 
 const static char HTML_HEADER[] = "HTTP/1.1 200 OK\nContent-type: text/html\n\n";
+/* static QueueHandle_t client_queue;
+static QueueHandle_t persisten_queue; */
 static QueueHandle_t client_queue;
-static QueueHandle_t persisten_queue;
+extern QueueHandle_t persisten_queue;
 
 
 class TcpServer
