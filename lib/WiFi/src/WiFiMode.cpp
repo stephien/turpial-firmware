@@ -92,7 +92,7 @@ esp_err_t WiFiMode::set_ap_config(APConfig& ap_config)
 {
     const std::uint8_t BROADCAST_SSID = 0;
 
-    wifi_config_t wifi_config;
+    wifi_config_t wifi_config = {};
     std::memset(&wifi_config, 0, sizeof(wifi_config_t));
 
     copy_bytes(wifi_config.ap.ssid, ap_config.ssid, 32);
@@ -110,7 +110,7 @@ esp_err_t WiFiMode::set_sta_config(STAConfig& sta_config)
     const std::uint8_t UNKNOWN_CHANNEL = 0;
     const std::uint8_t DEFAULT_LISTEN_INTERVAL = 0;
 
-    wifi_config_t wifi_config;
+    wifi_config_t wifi_config{};
     std::memset(&wifi_config, 0, sizeof(wifi_config_t));
 
     copy_bytes(wifi_config.sta.ssid, sta_config.ssid, 32);
