@@ -28,7 +28,6 @@ void TcpServer::runServer()
 {
     const static char* TAG = "server_task";
     static err_t err;
-    //client_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
 
     conn_ = netconn_new(NETCONN_TCP);
     netconn_bind(conn_, NULL, port_);
@@ -101,57 +100,58 @@ void TcpServer::handleTcpConnections(struct netconn* conn)
 {
     const static char* TAG = "TCP Connections";
     static err_t err;
-    struct
-    {   
+
+    typedef struct Temp {
         struct netconn* conn;
         struct netbuf* inbuf;
         char* buf;
         uint16_t buflen;
         err_t err;
-    } connection;
-    connection.conn = conn;
+    };
+    Temp* connection = new Temp();
+    connection->conn = conn;
 
     netconn_set_recvtimeout(conn, 1000); // allow a connection timeout of 1 second
     ESP_LOGI(TAG, "reading from client...");
-    err = netconn_recv(conn, &connection.inbuf);
+    err = netconn_recv(conn, &connection->inbuf);
     ESP_LOGI(TAG, "read from client");
 
     if (err == ERR_OK) {
-        netbuf_data(connection.inbuf, (void**)&connection.buf, &connection.buflen);
-        if (connection.buf) {
+        netbuf_data(connection->inbuf, (void**)&connection->buf, &connection->buflen);
+        if (connection->buf) {
             // default page for http
-            if (strstr(connection.buf, "GET / ") && !strstr(connection.buf, "Upgrade: websocket")) {
+            if (strstr(connection->buf, "GET / ") && !strstr(connection->buf, "Upgrade: websocket")) {
                 ESP_LOGI(TAG, "Sending /");
-                netconn_write(conn, HTML_HEADER, sizeof(HTML_HEADER) - 1, NETCONN_NOCOPY);
-                netconn_write(conn, "HI form ESP32 LOCAH MESH TEAM REPLY TO HTTP REQUEST", 29, NETCONN_NOCOPY);
-                netconn_close(conn);
-                netconn_delete(conn);
-                netbuf_delete(connection.inbuf);
-            } else if (strstr(connection.buf, "GET / ") && strstr(connection.buf, "Upgrade: websocket")) { //check headers and upgrade to websockets
+                netconn_write(connection->conn, HTML_HEADER, sizeof(HTML_HEADER) - 1, NETCONN_NOCOPY);
+                netconn_write(connection->conn, "HI", 2, NETCONN_NOCOPY);
+                netconn_close(connection->conn);
+                netconn_delete(connection->conn);
+                netbuf_delete(connection->inbuf);
+            } else if (strstr(connection->buf, "GET / ") && strstr(connection->buf, "Upgrade: websocket")) { //check headers and upgrade to websockets
                 ESP_LOGI(TAG, "Requesting websocket on /");
                 //here we need to send a signal to read new socket connection inside websocket server class
                 //wsServerAddClient(conn,buf,buflen,"/", websocket_callback);
 
                 xQueueSendToBack(persisten_queue, &connection, portMAX_DELAY); //this queue contain all future websocket clients
-                netbuf_delete(connection.inbuf);
+                netbuf_delete(connection->inbuf);
             } else {
-                netbuf_delete(connection.inbuf);
+                netbuf_delete(connection->inbuf);
                 ESP_LOGI(TAG, "Unknown request");
-                netconn_close(conn);
-                netconn_delete(conn);
-                netbuf_delete(connection.inbuf);
+                netconn_close(connection->conn);
+                netconn_delete(connection->conn);
+                netbuf_delete(connection->inbuf);
             }
         } else { //if buf
             ESP_LOGI(TAG, "Unknown request (empty?...)");
-            netconn_close(conn);
-            netconn_delete(conn);
-            netbuf_delete(connection.inbuf);
+            netconn_close(connection->conn);
+            netconn_delete(connection->conn);
+            netbuf_delete(connection->inbuf);
         }
     } else { // if err==ERR_OK
         ESP_LOGI(TAG, "error on read, closing connection");
-        netconn_close(conn);
-        netconn_delete(conn);
-        netbuf_delete(connection.inbuf);
+        netconn_close(connection->conn);
+        netconn_delete(connection->conn);
+        netbuf_delete(connection->inbuf);
     }
 }
 

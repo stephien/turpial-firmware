@@ -6,6 +6,7 @@
 #include "freertos/queue.h"
 #include "freertos/task.h"
 
+#include <iostream>
 
 namespace server {
 
@@ -38,6 +39,7 @@ static void background_callback(struct netconn* conn, enum netconn_evt evt, u16_
 // handles websocket events
 void websocket_callback(uint8_t num, WEBSOCKET_TYPE_t type, char* msg, uint64_t len)
 {
+    ESP_LOGI("TAG", "WEBSOCKET CALLBACK");
     const static char* TAG = "websocket_callback";
     int value;
 
@@ -82,24 +84,27 @@ static void ws_handleWebsocket_task(void* instance)
 {
     
     const static char* TAG = "handleClients";
-    /* struct
+    typedef struct Temp
     {
         struct netconn* conn;
         struct netbuf* inbuf;
         char* buf;
         uint16_t buflen;
         err_t err;
-    } connectionT; */
-    struct netconn* conn;
+    };
+    
+    Temp *connection = new Temp();
+
+    //struct netconn* conn;
 
     //struct netconn* conn;
     ESP_LOGI(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!task starting");
     for (;;) {
-        xQueueReceive(server::persisten_queue, &conn, portMAX_DELAY); //receive clients from Tcp Server
+        xQueueReceive(server::persisten_queue, &connection, portMAX_DELAY); //receive clients from Tcp Server
          ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!"); 
-      /*   if (!connectionT.conn) continue;
-        ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!"); */
-        //static_cast<WebSocketServer*>(instance)->ws_server_add_client(connection.conn, connection.buf, connection.buflen, "/", websocket_callback);
+         if (!connection->conn) continue;
+        ESP_LOGI("WEBSOCKET NEW", "YES NEW WEBSOCKET EVENT CONNECTED!!!!!!!!!!"); 
+        static_cast<WebSocketServer*>(instance)->ws_server_add_client(connection->conn, connection->buf, connection->buflen, "/", websocket_callback);
     }
     vTaskDelete(NULL);
 }
@@ -210,6 +215,7 @@ int WebSocketServer::ws_server_stop()
 
 bool WebSocketServer::prepare_response(char* buf, uint32_t buflen, char* handshake)
 {
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function");
     const char WS_HEADER[] = "Upgrade: websocket\r\n";
     const char WS_KEY[] = "Sec-WebSocket-Key: ";
     const char WS_RSP[] = "HTTP/1.1 101 Switching Protocols\r\n"
@@ -217,20 +223,27 @@ bool WebSocketServer::prepare_response(char* buf, uint32_t buflen, char* handsha
                           "Connection: Upgrade\r\n"
                           "Sec-WebSocket-Accept: %s\r\n\r\n";
 
+ ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function ****");
     char* key_start;
     char* key_end;
     char* hashed_key;
-
+ ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function++++++++++++++");
     if (!strstr(buf, WS_HEADER)) return 0;
+     ESP_LOGI("TRYING TO ADD CLIENT","aqui no llegamos linea 227");
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function 2");
     if (!buflen) return 0;
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function 3");
     key_start = strstr(buf, WS_KEY);
     if (!key_start) return 0;
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function 4");
     key_start += 19;
     key_end = strstr(key_start, "\r\n");
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function 5");
     if (!key_end) return 0;
 
     hashed_key = wsHashHandshake(key_start, key_end - key_start);
     if (!hashed_key) return 0;
+    ESP_LOGI("TRYING TO ADD CLIENT","inside prepare response function 6");
     sprintf(handshake, WS_RSP, hashed_key);
     return 1;
 }
@@ -246,19 +259,23 @@ int WebSocketServer::ws_server_add_client(struct netconn* conn,
 {
     int ret;
     char handshake[256];
-
+    std::cout << "LAS VARIABLES AQUI: " <<std::string(msg) << std::endl;
+    std::cout << "LAS VARIABLES AQUI" << len << std::endl;
+    ESP_LOGI("TRYING TO ADD CLIENT","I am going to add");
     if (!prepare_response(msg, len, handshake)) {
+         ESP_LOGI("TRYING TO ADD CLIENT","cerrando netcon");
         netconn_close(conn);
+         ESP_LOGI("TRYING TO ADD CLIENT","eliminado netcon");
         netconn_delete(conn);
         return -2;
     }
-
+    ESP_LOGI("TRYING TO ADD CLIENT","I am going to add 2");
 
     ret = -1;
     xSemaphoreTake(xwebsocket_mutex, portMAX_DELAY);
+    ESP_LOGI("TRYING TO ADD CLIENT","I am going to add 3");
 
-
-    conn->callback = background_callback;
+    conn->callback = background_callback; //just for add the socket to websocket queue
     netconn_write(conn, handshake, strlen(handshake), NETCONN_COPY);
     for (int i = 0; i < WEBSOCKET_SERVER_MAX_CLIENTS; i++) {
         if (clients[i].conn) continue;
