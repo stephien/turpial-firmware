@@ -23,8 +23,8 @@
 
 #include "WiFiEventHandler.h"
 
+#include "WsServer.h"
 #include "defaults.h"
-#include "TcpServer.h"
 
 static const char* TAG = "app_main";
 
@@ -62,11 +62,9 @@ esp_err_t getIsConfigured(bool& is_configured)
 }
 
 
-
-
 extern "C" void app_main()
 { //static server::WebSocketServer *server;
-    static server::TcpServer *tcpServer;
+    static server::WsServer* wsServer;
     esp_err_t err;
     wifi::WiFiEventHandler* event_handler;
     event_handler = new wifi::WiFiEventHandler();
@@ -129,10 +127,9 @@ extern "C" void app_main()
 
     // TODO: app loop
 
-      tcpServer = new server::TcpServer();
-    tcpServer->start(); 
-
+    wsServer = new server::WsServer();
+    wsServer->start();
 }
-    // server = new server::WebSocketServer();
-    // server->start();
-    // server->ws_server_start();
+// server = new server::WebSocketServer();
+// server->start();
+// server->ws_server_start();
