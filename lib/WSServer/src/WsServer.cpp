@@ -6,14 +6,13 @@
 namespace server {
 QueueHandle_t client_queue;
 QueueHandle_t persisten_queue;
+static int clients[WEBSOCKET_SERVER_MAX_CLIENTS]; // holds list of clients
 const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 
 WsServer::WsServer()
 {
-    client_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
-    persisten_queue = xQueueCreate(client_queue_size, sizeof(struct netconn*));
-    conn_ = new netconn();
-    netconn_bind(conn_, NULL, port_);
+    client_queue = xQueueCreate(client_queue_size, sizeof(int));
+    persisten_queue = xQueueCreate(client_queue_size, sizeof(int));
 }
 
 
@@ -108,17 +107,6 @@ void WsServer::start()
 }
 
 
-void WsServer::setPort(int port)
-{
-    this->port_ = port;
-}
-
-void WsServer::setTimeout(int16_t time)
-{
-    this->timeout_ = time;
-}
-
-
 /**
  * @brief with the next command we can test the connection with server
  * 
@@ -130,13 +118,7 @@ curl -i --no-buffer -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 1
 
 } // namespace server
 
-
-
-
-
 /*
-
-
 // serves any clients
 void TcpServer::handleTcpConnections(int sockfd)
 {
@@ -176,6 +158,4 @@ void TcpServer::handleTcpConnections(int sockfd)
         //}
     }
 }
-
-
 */
