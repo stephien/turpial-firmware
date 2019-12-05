@@ -3,8 +3,9 @@
 #include <errno.h>
 #include <string.h>
 
+
 namespace server {
-//extern QueueHandle_t client_queue;
+QueueHandle_t client_queue;
 QueueHandle_t persisten_queue;
 const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
 
@@ -23,7 +24,7 @@ TcpServer::~TcpServer()
 }
 
 
-//task server should have to run forever
+/* //task server should have to run forever
 void TcpServer::runServer()
 {
     const static char* TAG = "server_task";
@@ -51,6 +52,60 @@ void TcpServer::runServer()
         }
     } while (true);
 }
+ */
+
+//task server should have to run forever
+void TcpServer::runServer()
+{
+    const static char* TAG = "server_task";
+    static err_t err;
+    // socket create and verification
+    sockfd_ = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd_ < 0) {
+        ESP_LOGI("*****************", "was not possible to create the socket\n");
+        exit(0);
+    } else {
+        ESP_LOGI("*****************", "Socket successfully created..\n");
+        bzero(&serveraddr_, sizeof(serveraddr_));
+    }
+    // assign IP, PORT
+    serveraddr_.sin_family = AF_INET;
+    serveraddr_.sin_addr.s_addr = htonl(INADDR_ANY);
+    serveraddr_.sin_port = htons(PORT);
+
+
+    // Binding newly created socket to given IP and verification
+    if ((bind(sockfd_, (SA*)&serveraddr_, sizeof(serveraddr_))) != 0) {
+        ESP_LOGI("******************", "socket bind failed...\n");
+        exit(0);
+    } else
+        ESP_LOGI("**************************", "Socket successfully binded..\n");
+
+    // Now server is ready to listen and verification
+    if ((listen(sockfd_, 5)) != 0) {
+        ESP_LOGI("*****************************", "Listen failed...\n");
+        exit(0);
+    } else
+        ESP_LOGI("*****************************", "Server listening..\n");
+    len_ = sizeof(cli_addr_);
+
+    //Waitting for new connections forever
+    do {
+        connfd_ = new int();
+        *connfd_ = accept(sockfd_, (SA*)&cli_addr_, &len_);
+        // ESP_LOGI("VALUE OF SOCKET FILE DESCRIPTOR CONECTION:   ", "Value: %d", *connfd_);
+        if (*connfd_ > 0) {
+            printf("server acccept the client...\n");
+            xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //this queue contain all connected clients
+        } else {
+            printf("server acccept failed...\n");
+            delete connfd_;
+            closesocket(*connfd_);
+            exit(0);
+        }
+    } while (true);
+    closesocket(sockfd_);
+}
 
 
 /**
@@ -58,15 +113,35 @@ void TcpServer::runServer()
  * and know the type of request, it need to run forever loop 
  * 
  */
-void TcpServer::handleClients()
+/* void TcpServer::handleClients()
 {
     const static char* TAG = "handleClients";
     struct netconn* conn;
     ESP_LOGI(TAG, "task starting---handle clients");
     for (;;) {
         xQueueReceive(client_queue, &conn, portMAX_DELAY);
-        if (!conn) continue;
-        handleTcpConnections(conn);
+         if (conn) continue;
+         handleTcpConnections(conn); 
+    }
+    vTaskDelete(NULL);
+} */
+
+void TcpServer::handleClients()
+{
+    const static char* TAG = "handleClients";
+    int* conn;
+    ESP_LOGI(TAG, "task starting---handle clients");
+    for (;;) {
+        xQueueReceive(client_queue, &conn, portMAX_DELAY);
+        ESP_LOGI(TAG, "RECIBIENDO DATA DEL SOCKET------------------->>>>>>>");
+        if (conn) {
+            handleTcpConnections(*conn);
+            xQueueSendToBack(persisten_queue, &conn, portMAX_DELAY); //this queue contain all future websocket clients
+            closesocket(*conn);
+            delete conn;
+        }
+        delete conn;
+        //handleTcpConnections(*conn);
     }
     vTaskDelete(NULL);
 }
@@ -95,7 +170,7 @@ void TcpServer::setTimeout(int16_t time)
 }
 
 
-// serves any clients
+/* // serves any clients
 void TcpServer::handleTcpConnections(struct netconn* conn)
 {
     const static char* TAG = "TCP Connections";
@@ -152,6 +227,46 @@ void TcpServer::handleTcpConnections(struct netconn* conn)
         netconn_close(connection->conn);
         netconn_delete(connection->conn);
         netbuf_delete(connection->inbuf);
+    }
+} */
+
+// serves any clients
+void TcpServer::handleTcpConnections(int sockfd)
+{
+    ESP_LOGI("TEST", "HANDLE CONNECTION GOING TO TEST");
+    const static char* TAG = "TCP Connections";
+    static err_t err;
+
+    char buff[MAX];
+    int n;
+    for (;;) {
+        if (sockfd) {
+            bzero(buff, MAX);
+            // read the message from client and copy it in buffer
+            err = read(sockfd, buff, sizeof(buff));
+            if (err > 0) {
+                // print buffer which contains the client contents
+                printf("From client: %s\t To client : ", buff);
+                bzero(buff, MAX);
+                n = 0;
+                while (n < MAX) {
+                    buff[n] = getchar();
+                    if (buff[n] == '\n') break;
+                    n += 1;
+                }
+                // and send that buffer to client
+                write(sockfd, buff, sizeof(buff));
+
+
+                // if msg contains "Exit" then server exit and chat ended.
+                if (strncmp("exit", buff, 4) == 0) {
+                    printf("Server Exit...\n");
+                    break;
+                }
+            } else {
+                closesocket(sockfd);
+            }
+        }
     }
 }
 
