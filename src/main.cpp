@@ -26,6 +26,7 @@
 #include "WsServer.h"
 #include "defaults.h"
 
+
 static const char* TAG = "app_main";
 
 esp_err_t getIsConfigured(bool& is_configured)
@@ -60,7 +61,6 @@ esp_err_t getIsConfigured(bool& is_configured)
 
     return ESP_OK;
 }
-
 
 extern "C" void app_main()
 { //static server::WebSocketServer *server;
@@ -126,9 +126,10 @@ extern "C" void app_main()
 
 
     // TODO: app loop
+  
 
-    wsServer = new server::WsServer();
-    wsServer->start();
+     wsServer = new server::WsServer();
+    wsServer->start(); 
 }
 // server = new server::WebSocketServer();
 // server->start();

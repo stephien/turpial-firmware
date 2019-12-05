@@ -4,10 +4,14 @@
 
 
 namespace server {
+
 QueueHandle_t client_queue;
 QueueHandle_t persisten_queue;
+static QueueHandle_t xwebsocket_queue;                    // to hold the clients that send messages
+static TaskHandle_t xtask;                        // the task itself
+static SemaphoreHandle_t xwebsocket_mutex;        // to lock the client array
 static int clients[WEBSOCKET_SERVER_MAX_CLIENTS]; // holds list of clients
-const int DELAY = 1000 / portTICK_PERIOD_MS; // 1 second
+const int DELAY = 1000 / portTICK_PERIOD_MS;      // 1 second
 
 WsServer::WsServer()
 {
@@ -21,6 +25,17 @@ WsServer::~WsServer()
     xQueueReset(client_queue);
 }
 
+
+static void background_callback(int conn, enum netconn_evt evt, u16_t len)
+{
+    switch (evt) {
+    case NETCONN_EVT_RCVPLUS:
+        xQueueSendToBack(xwebsocket_queue, &conn, WEBSOCKET_SERVER_QUEUE_TIMEOUT);
+        break;
+    default:
+        break;
+    }
+}
 
 //task server should have to run forever
 void WsServer::runServer()
@@ -57,7 +72,7 @@ void WsServer::runServer()
         *connfd_ = accept(sockfd_, (SA*)&cli_addr_, &len_);
         if (*connfd_ > 0) {
             ESP_LOGI("SERVER_LOG --63", "server acccept the client...\n");
-            xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //this queue contain all connected clients       
+            xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //this queue contain all connected clients
         } else {
             ESP_LOGI("SERVER_LOG--66", "server acccept failed...\n");
             delete connfd_;
@@ -87,6 +102,7 @@ void WsServer::handleClients()
         ESP_LOGI(TAG, "RECIBIENDO DATA DEL SOCKET------------------->>>>>>>");
         if (conn) {
             ESP_LOGI("tcpserver-->>90", "en la cola conn != de cero");
+          //  addClient();
             xQueueSendToBack(persisten_queue, &conn, portMAX_DELAY); //this queue contain all future websocket clients
         }
         delete conn;

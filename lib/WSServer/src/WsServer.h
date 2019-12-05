@@ -22,7 +22,7 @@
 #define SA struct sockaddr
 
 #define WEBSOCKET_SERVER_MAX_CLIENTS CONFIG_WEBSOCKET_SERVER_MAX_CLIENTS
-
+#define WEBSOCKET_SERVER_QUEUE_TIMEOUT CONFIG_WEBSOCKET_SERVER_QUEUE_TIMEOUT
 
 
 namespace server {
@@ -48,6 +48,7 @@ private:
     
     void runServer(void);
     void handleClients(void);
+    void addClient();
     //wrapper to use member functions inside callbacks for tasks
     inline static void callbackServerTask(void* context) { static_cast<WsServer*>(context)->runServer(); }
     //wrapper // to execute handleClients
