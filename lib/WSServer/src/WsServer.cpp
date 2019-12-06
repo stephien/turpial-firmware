@@ -95,7 +95,6 @@ void WsServer::addClient(int conn, callBkAddClient callck)
                     mbedtls_base64_encode(NULL, 0, &olen, sha1sum, 20); //get length
                     int ok = mbedtls_base64_encode(encoded_key, sizeof(encoded_key), &olen, sha1sum, 20);
                     if (ok == 0) {
-                        // hs->is_websocket = 1;
                         encoded_key[olen] = '\0';
                         printf("Base64 encoded: %s\n", encoded_key);
                         // Send response
@@ -107,22 +106,54 @@ void WsServer::addClient(int conn, callBkAddClient callck)
                             if (!clients[i].conn) { //if the index in array is free we can alloate the socket
                                 clients[i].conn = conn;
                                 clients[i].isConnected = true;
+                                callck(clients[i].conn, wsEvent::CONNECTED);
                                 break;
                             }
                         }
                     }
                 } else {
-                    printf("Key overflow\n");
+                    ESP_LOGE("LOG", "Key overflow\n");
                     //return ERR_MEM;
                 }
             }
         } else {
-            printf("Malformed packet\n");
             //return ERR_ARG;
         }
     }
 }
 
+//
+static err_t websocket_parse(int conn)
+{
+    char buff[200];
+    read(conn, buff, sizeof(buff));
+    printf("From client: %s\t To client : ", buff); //without unmask just for testing
+    unsigned char* data;
+    data = (unsigned char*)buff;
+    uint16_t data_len = sizeof(buff);
+    if (data != NULL && data_len > 1) {
+        uint8_t opcode = data[0] & 0x0F;
+        switch (opcode) {
+        case 0x01: // text
+        case 0x02: // bin
+            if (data_len > 6) {
+                data_len -= 6;
+                /* unmask */
+                for (int i = 0; i < data_len; i++)
+                    data[i + 6] ^= data[2 + i % 4];
+                /* user callback */
+                //websocket_cb(pcb, &data[6], data_len, opcode);
+            }
+            break;
+        case 0x08: // close
+            ESP_LOGE("PROCESSING DATA", "CLOSE");
+            return ERR_CLSD;
+            break;
+        }
+        return ERR_OK;
+    }
+    return ERR_VAL;
+}
 
 //task server should have to run forever
 void WsServer::runServer()
@@ -166,7 +197,7 @@ void WsServer::runServer()
         if (*connfd_ > 0) {
             ESP_LOGI("SERVER_LOG --63", "server acccept the client...\n");
             xSemaphoreTake(websocket_mutex, portMAX_DELAY);
-            addClient(*connfd_, wsCallback); //try to switch client and add to array
+            addClient(*connfd_, wsCallback);                         //try to switch client and add to array
             xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //signal to emit new client connected
             xSemaphoreGive(websocket_mutex);
         } else {
@@ -210,7 +241,11 @@ void WsServer::handleClients()
             xSemaphoreTake(websocket_mutex, portMAX_DELAY);
             //here we have array of clients to send a receive messages and the actual client in queue
             ESP_LOGI("ENTRAMOS---->", "RECIBIMOS EN LA QUEUE %d", *conn);
-
+            websocket_parse(*conn);
+            /*  while(1) {
+                read(*conn, buff, sizeof(buff)); 
+                printf("From client: %s\t To client : ", buff); //without unmask just for testing
+            } */
             xSemaphoreGive(websocket_mutex);
         }
     }

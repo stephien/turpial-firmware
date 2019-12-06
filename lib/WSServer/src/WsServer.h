@@ -29,9 +29,9 @@ namespace server {
 const char WS_HEADER[] = "Upgrade: websocket\r\n";
 const char WS_GUID[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 const char WS_KEY[] = "Sec-WebSocket-Key: ";
-const char WS_RSP[] = "HTTP/1.1 101 Switching Protocols\r\n" \
-                      "Upgrade: websocket\r\n" \
-                      "Connection: Upgrade\r\n" \
+const char WS_RSP[] = "HTTP/1.1 101 Switching Protocols\r\n"
+                      "Upgrade: websocket\r\n"
+                      "Connection: Upgrade\r\n"
                       "Sec-WebSocket-Accept: %s\r\n\r\n";
 
 extern QueueHandle_t client_queue;
