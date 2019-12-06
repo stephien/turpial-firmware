@@ -101,9 +101,15 @@ void WsServer::addClient(int conn, callBkAddClient callck)
                         // Send response
                         char buf[256];
                         uint16_t len = snprintf(buf, sizeof(buf), WS_RSP, encoded_key);
-                        //http_write(pcb, buf, &len, TCP_WRITE_FLAG_COPY);
-                        //return ERR_OK;
-                        write(conn,buf,sizeof(buf));
+                        write(conn, buf, sizeof(buf)); //send the reply to switch to ws
+
+                        for (int i = 0; i < WEBSOCKET_SERVER_MAX_CLIENTS; i++) {
+                            if (!clients[i].conn) { //if the index in array is free we can alloate the socket
+                                clients[i].conn = conn;
+                                clients[i].isConnected = true;
+                                break;
+                            }
+                        }
                     }
                 } else {
                     printf("Key overflow\n");
@@ -114,18 +120,6 @@ void WsServer::addClient(int conn, callBkAddClient callck)
             printf("Malformed packet\n");
             //return ERR_ARG;
         }
-        /* if (strncmp(buff, "GET", 4)) {
-        char uri[16];
-        const int max_uri_len = 16;
-        char *sp1, *sp2;
-        // extract URI 
-        sp1 = buff + 4;
-        sp2 = (char*)memchr(sp1, ' ', max_uri_len);
-        int len = sp2 - sp1;
-        memcpy(uri, sp1, len);
-        uri[len] = '\0';
-        printf("uri: %s\n", uri);
-    } */
     }
 }
 
@@ -172,9 +166,9 @@ void WsServer::runServer()
         if (*connfd_ > 0) {
             ESP_LOGI("SERVER_LOG --63", "server acccept the client...\n");
             xSemaphoreTake(websocket_mutex, portMAX_DELAY);
-            addClient(*connfd_, wsCallback); //add client to array clients connected
+            addClient(*connfd_, wsCallback); //try to switch client and add to array
+            xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //signal to emit new client connected
             xSemaphoreGive(websocket_mutex);
-            xQueueSendToBack(client_queue, &connfd_, portMAX_DELAY); //this queue contain all connected clients
         } else {
             ESP_LOGI("SERVER_LOG--66", "server acccept failed...\n");
             delete connfd_;
@@ -210,9 +204,6 @@ void WsServer::handleClients()
     static err_t err;
 
     ESP_LOGI(TAG, "task starting---handle clients");
-    for (int i = 0; i < WEBSOCKET_SERVER_MAX_CLIENTS; i++) {
-        clients[i].conn = 0;
-    }
     for (;;) {
         xQueueReceive(client_queue, &conn, portMAX_DELAY);
         if (*conn != 0) {
@@ -249,45 +240,3 @@ curl -i --no-buffer -H "Connection: Upgrade" -H "Upgrade: websocket" -H "Host: 1
 */
 
 } // namespace server
-
-/*
-// serves any clients
-void TcpServer::handleTcpConnections(int sockfd)
-{
-    ESP_LOGI("TEST", "HANDLE CONNECTION GOING TO TEST");
-    const static char* TAG = "TCP Connections";
-    static err_t err;
-
-    char buff[MAX];
-    int n;
-    for (;;) {
-        //  if (sockfd > 0) {
-        bzero(buff, MAX);
-        // read the message from client and copy it in buffer
-        err = read(sockfd, buff, sizeof(buff));
-        if (err != 0) {
-            ESP_LOGI("TEST", "LOOP INFINITO HERE %d -- > %d", err, sockfd);
-
-            // print buffer which contains the client contents
-            printf("From client: %s\t To client : ", buff);
-            bzero(buff, MAX);
-            n = 0;
-            while (n < MAX) {
-                buff[n] = getchar();
-                if (buff[n] == '\n') break;
-                n += 1;
-            } 
-            // and send that buffer to client
-            //write(sockfd, buff, sizeof(buff));
-
-
-            // if msg contains "Exit" then server exit and chat ended.
-            if (strncmp("exit", buff, 4) == 0) {
-                printf("Server Exit...\n");
-                break;
-            }
-        }
-        //}
-    }
-}
-*/
