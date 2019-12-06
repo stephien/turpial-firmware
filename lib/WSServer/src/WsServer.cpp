@@ -112,7 +112,7 @@ void WsServer::addClient(int conn, callBkAddClient callck)
                         }
                     }
                 } else {
-                    ESP_LOGE("LOG", "Key overflow\n");
+                    ESP_LOGE("LOG","Key overflow\n");
                     //return ERR_MEM;
                 }
             }
@@ -122,15 +122,30 @@ void WsServer::addClient(int conn, callBkAddClient callck)
     }
 }
 
+
+void websocket_write(int conn, const uint8_t *data, uint16_t len, uint8_t mode)
+{
+    if (len > 125)
+        return;
+    unsigned char buf[len + 2];
+    buf[0] = 0x80 | mode;
+    buf[1] = len;
+    memcpy(&buf[2], data, len);
+    len += 2;
+    write(conn, buf, len);
+}
+
 //
 static err_t websocket_parse(int conn)
 {
     char buff[200];
-    read(conn, buff, sizeof(buff));
-    printf("From client: %s\t To client : ", buff); //without unmask just for testing
+    int tam = read(conn, buff, sizeof(buff));
+    
+    printf("From client***********>>>: %s\t To client : ", buff); //without unmask just for testing
     unsigned char* data;
     data = (unsigned char*)buff;
-    uint16_t data_len = sizeof(buff);
+    uint16_t data_len = uint16_t(tam);
+    ESP_LOGI("--------------NO SE IMPRIME", "RARO ESO %d", tam);
     if (data != NULL && data_len > 1) {
         uint8_t opcode = data[0] & 0x0F;
         switch (opcode) {
@@ -142,7 +157,7 @@ static err_t websocket_parse(int conn)
                 for (int i = 0; i < data_len; i++)
                     data[i + 6] ^= data[2 + i % 4];
                 /* user callback */
-                //websocket_cb(pcb, &data[6], data_len, opcode);
+                websocket_write(conn, &data[6], data_len, opcode);
             }
             break;
         case 0x08: // close
