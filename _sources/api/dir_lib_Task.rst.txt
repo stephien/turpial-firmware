@@ -1,0 +1,21 @@
+.. _dir_lib_Task:
+
+
+Directory Task
+==============
+
+
+|exhale_lsh| :ref:`Parent directory <dir_lib>` (``lib``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``lib/Task``
+
+
+Files
+-----
+
+- :ref:`file_lib_Task_Task.cpp`
+- :ref:`file_lib_Task_Task.h`
+
+

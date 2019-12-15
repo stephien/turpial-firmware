@@ -1,0 +1,16 @@
+.. _exhale_class_classRingbuffer:
+
+Class Ringbuffer
+================
+
+- Defined in :ref:`file_lib_WS_src_FreeRTOS.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Ringbuffer
+   :members:
+   :protected-members:
+   :undoc-members:

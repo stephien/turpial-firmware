@@ -1,0 +1,20 @@
+.. _dir_lib_Network:
+
+
+Directory Network
+=================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_lib>` (``lib``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``lib/Network``
+
+Subdirectories
+--------------
+
+- :ref:`dir_lib_Network_src`
+
+
+

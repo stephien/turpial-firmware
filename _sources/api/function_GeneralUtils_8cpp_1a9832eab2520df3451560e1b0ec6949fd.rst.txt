@@ -1,0 +1,13 @@
+.. _exhale_function_GeneralUtils_8cpp_1a9832eab2520df3451560e1b0ec6949fd:
+
+Function base64EncodedLength(const std::string&)
+================================================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: base64EncodedLength(const std::string&)

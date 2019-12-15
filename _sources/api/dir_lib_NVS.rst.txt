@@ -1,0 +1,20 @@
+.. _dir_lib_NVS:
+
+
+Directory NVS
+=============
+
+
+|exhale_lsh| :ref:`Parent directory <dir_lib>` (``lib``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+*Directory path:* ``lib/NVS``
+
+Subdirectories
+--------------
+
+- :ref:`dir_lib_NVS_src`
+
+
+

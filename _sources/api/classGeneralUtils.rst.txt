@@ -1,0 +1,16 @@
+.. _exhale_class_classGeneralUtils:
+
+Class GeneralUtils
+==================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.h`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: GeneralUtils
+   :members:
+   :protected-members:
+   :undoc-members:

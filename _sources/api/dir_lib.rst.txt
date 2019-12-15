@@ -1,0 +1,28 @@
+.. _dir_lib:
+
+
+Directory lib
+=============
+
+
+*Directory path:* ``lib``
+
+Subdirectories
+--------------
+
+- :ref:`dir_lib_BLE`
+- :ref:`dir_lib_BLEPreferences`
+- :ref:`dir_lib_Network`
+- :ref:`dir_lib_NVS`
+- :ref:`dir_lib_Radio`
+- :ref:`dir_lib_Task`
+- :ref:`dir_lib_Util`
+- :ref:`dir_lib_WS`
+
+
+Files
+-----
+
+- :ref:`file_lib_README.md`
+
+

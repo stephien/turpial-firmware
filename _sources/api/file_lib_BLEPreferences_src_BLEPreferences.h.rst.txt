@@ -1,0 +1,64 @@
+
+.. _file_lib_BLEPreferences_src_BLEPreferences.h:
+
+File BLEPreferences.h
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_BLEPreferences_src>` (``lib/BLEPreferences/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/BLEPreferences/src/BLEPreferences.h``)
+--------------------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_BLEPreferences_src_BLEPreferences.h.rst
+
+
+
+Detailed Description
+--------------------
+
+Locha Mesh Developers (contact@locha.io) 
+0.1 
+2019-11-25
+Copyright (c) 2019 Locha Mesh project developers 
+Apache 2.0, see LICENSE file for details 
+
+
+
+
+Includes
+--------
+
+
+- ``Server.h`` (:ref:`file_lib_WS_src_HttpServer.h`)
+
+- ``esp_err.h``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_lib_BLEPreferences_src_BLEPreferences.cpp`
+
+- :ref:`file_src_main.cpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_ble_preferences`
+

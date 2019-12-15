@@ -1,0 +1,27 @@
+.. _exhale_class_classTask:
+
+Class Task
+==========
+
+- Defined in :ref:`file_lib_Task_Task.h`
+
+
+Inheritance Relationships
+-------------------------
+
+Derived Types
+*************
+
+- ``public HttpServerTask`` (:ref:`exhale_class_classHttpServerTask`)
+- ``public radio::Radio`` (:ref:`exhale_class_classradio_1_1Radio`)
+- ``public WebSocketReader`` (:ref:`exhale_class_classWebSocketReader`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: Task
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,26 @@
+.. _exhale_class_classFreeRTOS:
+
+Class FreeRTOS
+==============
+
+- Defined in :ref:`file_lib_WS_src_FreeRTOS.h`
+
+
+Nested Relationships
+--------------------
+
+
+Nested Types
+************
+
+- :ref:`exhale_class_classFreeRTOS_1_1Semaphore`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: FreeRTOS
+   :members:
+   :protected-members:
+   :undoc-members:

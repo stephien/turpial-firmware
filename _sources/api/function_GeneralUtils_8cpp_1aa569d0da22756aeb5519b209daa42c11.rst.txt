@@ -1,0 +1,13 @@
+.. _exhale_function_GeneralUtils_8cpp_1aa569d0da22756aeb5519b209daa42c11:
+
+Function DecodedLength
+======================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: DecodedLength(const std::string&)

@@ -1,0 +1,13 @@
+.. _exhale_function_GeneralUtils_8cpp_1a7411144c56c08ac97c24e7bf2ff8455e:
+
+Function a4_to_a3
+=================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: a4_to_a3(unsigned char *, unsigned char *)

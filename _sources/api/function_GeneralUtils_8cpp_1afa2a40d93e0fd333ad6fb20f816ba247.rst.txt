@@ -1,0 +1,13 @@
+.. _exhale_function_GeneralUtils_8cpp_1afa2a40d93e0fd333ad6fb20f816ba247:
+
+Function b64_lookup
+===================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: b64_lookup(unsigned char)

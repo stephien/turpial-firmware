@@ -1,0 +1,77 @@
+
+.. _file_lib_NVS_src_NVS.cpp:
+
+File NVS.cpp
+============
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_NVS_src>` (``lib/NVS/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/NVS/src/NVS.cpp``)
+------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_NVS_src_NVS.cpp.rst
+
+
+
+Detailed Description
+--------------------
+
+your name (you@domain.com) 
+0.1 
+2019-11-20
+Copyright (c) 2019 
+
+
+
+
+Includes
+--------
+
+
+- ``NVS.h`` (:ref:`file_lib_NVS_src_NVS.h`)
+
+- ``cstdint``
+
+- ``defaults.h`` (:ref:`file_src_defaults.h`)
+
+- ``esp_log.h``
+
+- ``esp_system.h``
+
+- ``nvs_flash.h``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_storage`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_NVS_8cpp_1a48fae148c067d4f0be7c162fd5235b38`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_NVS_8cpp_1a2a1da5894ce43ffb7c4dc2cac3663180`
+

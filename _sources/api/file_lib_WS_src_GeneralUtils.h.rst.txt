@@ -1,0 +1,64 @@
+
+.. _file_lib_WS_src_GeneralUtils.h:
+
+File GeneralUtils.h
+===================
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_WS_src>` (``lib/WS/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/WS/src/GeneralUtils.h``)
+------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_WS_src_GeneralUtils.h.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``algorithm``
+
+- ``esp_err.h``
+
+- ``stdint.h``
+
+- ``string``
+
+- ``vector``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+- :ref:`file_lib_WS_src_HttpParser.cpp`
+
+- :ref:`file_lib_WS_src_HttpRequest.cpp`
+
+- :ref:`file_lib_WS_src_HttpServer.cpp`
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classGeneralUtils`
+

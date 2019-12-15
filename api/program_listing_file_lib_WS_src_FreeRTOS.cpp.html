@@ -1,0 +1,406 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Program Listing for File FreeRTOS.cpp &mdash; turpial-firmware  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js"></script>
+        <script type="text/javascript" src="../_static/collapsible-lists/js/apply-collapsible-lists.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/collapsible-lists/css/tree_view.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> turpial-firmware
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="library_root.html">Library API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">turpial-firmware</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Program Listing for File FreeRTOS.cpp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/api/program_listing_file_lib_WS_src_FreeRTOS.cpp.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="program-listing-for-file-freertos-cpp">
+<span id="program-listing-file-lib-ws-src-freertos-cpp"></span><h1>Program Listing for File FreeRTOS.cpp<a class="headerlink" href="#program-listing-for-file-freertos-cpp" title="Permalink to this headline">¶</a></h1>
+<p>↰ <a class="reference internal" href="file_lib_WS_src_FreeRTOS.cpp.html#file-lib-ws-src-freertos-cpp"><span class="std std-ref">Return to documentation for file</span></a> (<code class="docutils literal notranslate"><span class="pre">lib/WS/src/FreeRTOS.cpp</span></code>)</p>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm"> * FreeRTOS.cpp</span>
+<span class="cm"> *</span>
+<span class="cm"> *  Created on: Feb 24, 2017</span>
+<span class="cm"> *      Author: kolban</span>
+<span class="cm"> */</span>
+<span class="cp">#include</span> <span class="cpf">&quot;FreeRTOS.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;sdkconfig.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;freertos/FreeRTOS.h&gt; // Include the base FreeRTOS definitions</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;freertos/semphr.h&gt;   // Include the semaphore definitions</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;freertos/task.h&gt;     // Include the task definitions</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;sstream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="cm">/* #if defined(ARDUINO_ARCH_ESP32) &amp;&amp; defined(CONFIG_ARDUHAL_ESP_LOG)</span>
+<span class="cm">#include &quot;esp32-hal-log.h&quot;</span>
+<span class="cm">#define LOG_TAG &quot;&quot;</span>
+<span class="cm">#else */</span>
+<span class="cp">#include</span> <span class="cpf">&quot;esp_log.h&quot;</span><span class="cp"></span>
+<span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">LOG_TAG</span> <span class="o">=</span> <span class="s">&quot;FreeRTOS&quot;</span><span class="p">;</span>
+<span class="c1">//#endif</span>
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">sleep</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">ms</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">::</span><span class="n">vTaskDelay</span><span class="p">(</span><span class="n">ms</span> <span class="o">/</span> <span class="n">portTICK_PERIOD_MS</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// sleep</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">startTask</span><span class="p">(</span><span class="kt">void</span> <span class="n">task</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="p">),</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">taskName</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">param</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">stackSize</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">::</span><span class="n">xTaskCreate</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">taskName</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">stackSize</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// startTask</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">deleteTask</span><span class="p">(</span><span class="n">TaskHandle_t</span> <span class="n">pTask</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">::</span><span class="n">vTaskDelete</span><span class="p">(</span><span class="n">pTask</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// deleteTask</span>
+
+
+<span class="kt">uint32_t</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">getTimeSinceStart</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)(</span><span class="n">xTaskGetTickCount</span><span class="p">()</span> <span class="o">*</span> <span class="n">portTICK_PERIOD_MS</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// getTimeSinceStart</span>
+
+
+<span class="kt">uint32_t</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">wait</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">owner</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ESP_LOGV</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;&gt;&gt; wait: Semaphore waiting: %s for %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">owner</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+
+    <span class="n">m_owner</span> <span class="o">=</span> <span class="n">owner</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">xSemaphoreTake</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">xSemaphoreGive</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">ESP_LOGV</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;&lt;&lt; wait: Semaphore released: %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="k">return</span> <span class="n">m_value</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// wait</span>
+
+
+<span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">Semaphore</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_usePthreads</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// Are we using pThreads or FreeRTOS?</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">,</span> <span class="k">nullptr</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">m_semaphore</span> <span class="o">=</span> <span class="n">xSemaphoreCreateBinary</span><span class="p">();</span>
+        <span class="n">xSemaphoreGive</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">m_name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+    <span class="n">m_owner</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;&lt;N/A&gt;&quot;</span><span class="p">);</span>
+    <span class="n">m_value</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::~</span><span class="n">Semaphore</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_destroy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">vSemaphoreDelete</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">give</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">ESP_LOGV</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore giving: %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">xSemaphoreGive</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="c1">// #ifdef ARDUINO_ARCH_ESP32</span>
+    <span class="c1">//  FreeRTOS::sleep(10);</span>
+    <span class="c1">// #endif</span>
+
+    <span class="n">m_owner</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">&quot;&lt;N/A&gt;&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// Semaphore::give</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">give</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">value</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_value</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span>
+    <span class="n">give</span><span class="p">();</span>
+<span class="p">}</span> <span class="c1">// give</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">giveFromISR</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">BaseType_t</span> <span class="n">higherPriorityTaskWoken</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">xSemaphoreGiveFromISR</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">higherPriorityTaskWoken</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="c1">// giveFromISR</span>
+
+
+<span class="kt">bool</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">take</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">owner</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ESP_LOGD</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore taking: %s for %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">owner</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="kt">bool</span> <span class="n">rc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">pthread_mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_pthread_mutex</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="o">::</span><span class="n">xSemaphoreTake</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdTRUE</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">m_owner</span> <span class="o">=</span> <span class="n">owner</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ESP_LOGD</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore taken:  %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">ESP_LOGE</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore NOT taken:  %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// Semaphore::take</span>
+
+
+<span class="kt">bool</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">take</span><span class="p">(</span><span class="kt">uint32_t</span> <span class="n">timeoutMs</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">owner</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ESP_LOGV</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore taking: %s for %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">(),</span> <span class="n">owner</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="kt">bool</span> <span class="n">rc</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">m_usePthreads</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assert</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span> <span class="c1">// We apparently don&#39;t have a timed wait for pthreads.</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">rc</span> <span class="o">=</span> <span class="o">::</span><span class="n">xSemaphoreTake</span><span class="p">(</span><span class="n">m_semaphore</span><span class="p">,</span> <span class="n">timeoutMs</span> <span class="o">/</span> <span class="n">portTICK_PERIOD_MS</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdTRUE</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">m_owner</span> <span class="o">=</span> <span class="n">owner</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rc</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ESP_LOGV</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore taken:  %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">ESP_LOGE</span><span class="p">(</span><span class="n">LOG_TAG</span><span class="p">,</span> <span class="s">&quot;Semaphore NOT taken:  %s&quot;</span><span class="p">,</span> <span class="n">toString</span><span class="p">().</span><span class="n">c_str</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">rc</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// Semaphore::take</span>
+
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">toString</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">stringstream</span> <span class="n">stringStream</span><span class="p">;</span>
+    <span class="n">stringStream</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;name: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_name</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; (0x&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">setfill</span><span class="p">(</span><span class="sc">&#39;0&#39;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">m_semaphore</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;), owner: &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">m_owner</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">stringStream</span><span class="p">.</span><span class="n">str</span><span class="p">();</span>
+<span class="p">}</span> <span class="c1">// toString</span>
+
+
+<span class="kt">void</span> <span class="n">FreeRTOS</span><span class="o">::</span><span class="n">Semaphore</span><span class="o">::</span><span class="n">setName</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// setName</span>
+
+
+<span class="n">Ringbuffer</span><span class="o">::</span><span class="n">Ringbuffer</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="n">ringbuf_type_t</span> <span class="n">type</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">m_handle</span> <span class="o">=</span> <span class="o">::</span><span class="n">xRingbufferCreate</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">type</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// Ringbuffer</span>
+
+
+<span class="n">Ringbuffer</span><span class="o">::~</span><span class="n">Ringbuffer</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">::</span><span class="n">vRingbufferDelete</span><span class="p">(</span><span class="n">m_handle</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// ~Ringbuffer</span>
+
+
+<span class="kt">void</span><span class="o">*</span> <span class="n">Ringbuffer</span><span class="o">::</span><span class="n">receive</span><span class="p">(</span><span class="kt">size_t</span><span class="o">*</span> <span class="n">size</span><span class="p">,</span> <span class="n">TickType_t</span> <span class="n">wait</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="o">::</span><span class="n">xRingbufferReceive</span><span class="p">(</span><span class="n">m_handle</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">wait</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// receive</span>
+
+
+<span class="kt">void</span> <span class="n">Ringbuffer</span><span class="o">::</span><span class="n">returnItem</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">item</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="o">::</span><span class="n">vRingbufferReturnItem</span><span class="p">(</span><span class="n">m_handle</span><span class="p">,</span> <span class="n">item</span><span class="p">);</span>
+<span class="p">}</span> <span class="c1">// returnItem</span>
+
+
+<span class="kt">bool</span> <span class="n">Ringbuffer</span><span class="o">::</span><span class="n">send</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="n">TickType_t</span> <span class="n">wait</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="o">::</span><span class="n">xRingbufferSend</span><span class="p">(</span><span class="n">m_handle</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">wait</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdTRUE</span><span class="p">;</span>
+<span class="p">}</span> <span class="c1">// send</span>
+</pre></div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Locha Mesh developers
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

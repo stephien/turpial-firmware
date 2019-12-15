@@ -1,0 +1,64 @@
+
+.. _file_lib_WS_src_HttpServer.h:
+
+File HttpServer.h
+=================
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_WS_src>` (``lib/WS/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/WS/src/HttpServer.h``)
+----------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_WS_src_HttpServer.h.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``FreeRTOS.h`` (:ref:`file_lib_WS_src_FreeRTOS.h`)
+
+- ``HttpRequest.h`` (:ref:`file_lib_WS_src_HttpRequest.h`)
+
+- ``HttpResponse.h`` (:ref:`file_lib_WS_src_HttpResponse.h`)
+
+- ``regex``
+
+- ``stdint.h``
+
+- ``vector``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_lib_WS_src_HttpServer.cpp`
+
+- :ref:`file_src_main.cpp`
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classHttpServer`
+
+- :ref:`exhale_class_classPathHandler`
+

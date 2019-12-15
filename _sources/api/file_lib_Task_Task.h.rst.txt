@@ -1,0 +1,60 @@
+
+.. _file_lib_Task_Task.h:
+
+File Task.h
+===========
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_Task>` (``lib/Task``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/Task/Task.h``)
+--------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_Task_Task.h.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``freertos/FreeRTOS.h``
+
+- ``freertos/task.h``
+
+- ``string``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_lib_Radio_Radio.h`
+
+- :ref:`file_lib_Task_Task.cpp`
+
+- :ref:`file_lib_WS_src_HttpServer.cpp`
+
+- :ref:`file_lib_WS_src_WebSocket.cpp`
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classTask`
+

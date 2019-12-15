@@ -1,0 +1,13 @@
+.. _exhale_variable_NVS_8cpp_1a2a1da5894ce43ffb7c4dc2cac3663180:
+
+Variable storage::TAG
+=====================
+
+- Defined in :ref:`file_lib_NVS_src_NVS.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: storage::TAG

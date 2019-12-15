@@ -1,0 +1,13 @@
+.. _exhale_variable_GeneralUtils_8cpp_1aeaf3f12738fa64f3cccbe5b361d4c62d:
+
+Variable kBase64Alphabet
+========================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: kBase64Alphabet

@@ -1,0 +1,22 @@
+.. _exhale_class_classFreeRTOS_1_1Semaphore:
+
+Class FreeRTOS::Semaphore
+=========================
+
+- Defined in :ref:`file_lib_WS_src_FreeRTOS.h`
+
+
+Nested Relationships
+--------------------
+
+This class is a nested type of :ref:`exhale_class_classFreeRTOS`.
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: FreeRTOS::Semaphore
+   :members:
+   :protected-members:
+   :undoc-members:

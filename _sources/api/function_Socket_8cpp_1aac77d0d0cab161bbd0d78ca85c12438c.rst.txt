@@ -1,0 +1,13 @@
+.. _exhale_function_Socket_8cpp_1aac77d0d0cab161bbd0d78ca85c12438c:
+
+Function my_debug
+=================
+
+- Defined in :ref:`file_lib_WS_src_Socket.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: my_debug(void *, int, const char *, int, const char *)

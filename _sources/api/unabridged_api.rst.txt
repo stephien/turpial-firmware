@@ -1,0 +1,732 @@
+
+Full API
+--------
+
+Namespaces
+**********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_ble.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_ble_preferences.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_network.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_radio.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_std.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_storage.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   namespace_util.rst
+
+Classes and Structs
+*******************
+
+
+.. toctree::
+   :maxdepth: 5
+
+   structble_1_1ServerParams.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   structFrame.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   structnetwork_1_1APConfig.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   structnetwork_1_1STAConfig.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1AdvertisementData.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1AdvertisementState.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Advertising.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Characteristic.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1CharacteristicCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Server.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Service.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Uuid.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble_1_1Value.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble__preferences_1_1APPasswordCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble__preferences_1_1APSSIDCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble__preferences_1_1STAPasswordCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble__preferences_1_1STASSIDCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classble__preferences_1_1WiFiModeCallback.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classFreeRTOS.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classFreeRTOS_1_1Semaphore.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classGeneralUtils.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classHttpParser.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classHttpRequest.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classHttpResponse.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classHttpServer.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classHttpServerTask.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classnetwork_1_1WiFi.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classnetwork_1_1WiFiDefaultEventHandler.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classnetwork_1_1WiFiEventHandler.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classPathHandler.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classradio_1_1Radio.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classRingbuffer.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classSocket.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classSocketException.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classSocketInputRecordStreambuf.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classstorage_1_1NVS.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classTask.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classutil_1_1Semaphore.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classWebSocket.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classWebSocketHandler.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classWebSocketInputStreambuf.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classWebSocketReader.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   classWsHandlerEvents.rst
+
+Functions
+*********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1a2f1361b9bccc5736aecbd98803cb24c9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1a7411144c56c08ac97c24e7bf2ff8455e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_main_8cpp_1abce06be17fc37d675118a678a8100a36.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1afa2a40d93e0fd333ad6fb20f816ba247.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1ab905f698d09134fe5a5f7431dc63fd3e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1a9832eab2520df3451560e1b0ec6949fd.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_BLEPreferences_8cpp_1a86132df8f8689cb0275396bd9e9f21eb.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_BLEPreferences_8cpp_1aa60c07f427bfd1350c0015998cdaa59f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_HttpRequest_8cpp_1af3e3c665edf193d583918b87eacebdec.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_GeneralUtils_8cpp_1aa569d0da22756aeb5519b209daa42c11.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WebSocket_8cpp_1abc8d76ac134b26a44c42b03f4f952f4e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_main_8cpp_1a64204756e9c1346b23cc914a42ac1a07.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WebSocket_8cpp_1a379424b6bc52498c9dca693c6aea3549.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WebSocket_8cpp_1a5f9d3d3ad8fc8c55f29bfad1e862d2f8.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WebSocket_8cpp_1a7e4133c98661e1e258f6c636e3c1245c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WebSocket_8cpp_1aee0c3c901bd90b3760c5e69dff6c5f58.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_Socket_8cpp_1aac77d0d0cab161bbd0d78ca85c12438c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WiFi_8cpp_1a22a729d422dc49230588ed439f8e3257.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WiFi_8cpp_1a8b477c62e11a24987d84ad27b0d6cc21.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_WiFi_8cpp_1af5ae2a0d2dc304157533ca5edacb1901.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_HttpParser_8cpp_1a65b600e50d58077cf77916559cc37af2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_NVS_8cpp_1a48fae148c067d4f0be7c162fd5235b38.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_HttpParser_8cpp_1ae17c0ec9b94083a5ec157eef9ec7fb31.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_HttpParser_8cpp_1a06e55ec512adb6f79a1b92e2eb33ce45.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_Hex_8cpp_1a3cbb0d2c7022dda7204219a3fa18e24f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_Hex_8cpp_1a2ae9e7a3e9289ea17e2a0db04bf03d78.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   function_main_8cpp_1a7288a5a77caa7bb76adde12006d6c52b.rst
+
+Variables
+*********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Advertising_8h_1a4e47c2c9124a5cb37457e9849cbb20b4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Advertising_8h_1abd94c16dc510c96d1fc50e7cee440eb1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Advertising_8cpp_1a1fab38cd3268a33c6e87ff966ffd6be4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a5b7d7d4c5518cc5a13aff59c4211ad50.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a62901c96485623f0e4c200f412480723.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a554c30b11e2d6b909f4829cabb837ce0.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a69ce5913d8b4c04a38600c84dc88e0e2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a90a1f5db0f2e54ecb696a97c52eb4bdf.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a06939186bf8eac384a2f46e8250b2280.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1ac04c22d60710ef4d1188f3c291bf5b9c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_BLEPreferences_8cpp_1a4e9d37dfd8d82a4e02e6001e5f66334c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_main_8cpp_1a6827cefaad7a4a4ceb58292edcaaaee9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_GeneralUtils_8cpp_1aeaf3f12738fa64f3cccbe5b361d4c62d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpParser_8cpp_1a0f1fb6b783576065da6d63efb6809dba.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpResponse_8cpp_1a0f1fb6b783576065da6d63efb6809dba.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Task_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_FreeRTOS_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_GeneralUtils_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpParser_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpRequest_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpResponse_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_HttpServer_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Socket_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WiFi_8cpp_1ae5fe33bbecffeafee5c5c2b345bc2e2d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WiFi_8cpp_1a12acbf98837147112ae9f7a459b81bcb.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a25a98cb81496a1cc04ef6e6a14873df0.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a082a4912fcbb54c90b3e4d66ffbac61e.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a19fffc7b227594ba340b86fc64ba426d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1ab31db9373efce0d0b348e8e7463d320a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a5ddb9067a983aed8b0128a1f2a9f3c8a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1af4bb924cc069f278ef55f5874aaf96a7.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Radio_8cpp_1a88a3c55bdd37e02241c129756542b0d2.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_NVS_8cpp_1a2a1da5894ce43ffb7c4dc2cac3663180.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WiFiEventHandler_8cpp_1a5a85b9c772bbeb480b209a3e6ea92b4c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_main_8cpp_1a5a85b9c772bbeb480b209a3e6ea92b4c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_Sema_8cpp_1ab8eb9dbffeb563840255ca4ddbb34643.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8cpp_1a0da8e9a8288b51e73dc6b9e10d02f159.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WebSocket_8h_1a0da8e9a8288b51e73dc6b9e10d02f159.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   variable_WsHandlerEvents_8h_1a0da8e9a8288b51e73dc6b9e10d02f159.rst
+
+Defines
+*******
+
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a332b962ec50384a5047f34702c8b70a6.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a332b962ec50384a5047f34702c8b70a6.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a0889a7ece93eca4ff0d23356acb57bd9.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a34b24eefce115ce9c95bc1efbf21bfee.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a5acd63da6573a25ecef02c259de4236c.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a852ada17276267d1560086589181498a.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1aa4f10a69a7a0880930f90fe353033192.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a3ae7fbfc9dd87ebe369ac9a491756b1b.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a7a2eac2289388cff5cf5adfb24e72218.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1afec8d69eace1462de6c35e38bc9161fe.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1af0ac4e2d813cd5e07d8c862011de24a3.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_HttpRequest_8cpp_1a0d7815723706a488b5bb65f7e3acf584.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_HttpRequest_8cpp_1afa847074574f6dcfae4ac9ab675868e4.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_Hex_8h_1ada3a37dafa3fd7e6adf661046e5d3b32.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a33bc61022da60ac1c9ee84ac0ed192e6.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a934554770def286417012ddef17cfb3f.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a99ef8069fcde89e4a6bbb77231ff1500.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1ab5abf1549c9a73d0f9e7e24fc8c5651d.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a35ea56303d1c0698086ce472ab1f5c14.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_WebSocket_8h_1abc08fbf09b2aa0e0a64267ce258e8431.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a4e3075c45ada71b4a46179e6ed778c25.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1ab4bfcfe1b2da0cebd91c5dac0fb53ea1.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   define_defaults_8h_1a25a55e0e82db2b7ff645f49b253822a1.rst
+
+Typedefs
+********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   typedef_WebSocket_8h_1a26bf375e4651931ff2428c5989f7db0f.rst

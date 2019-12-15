@@ -1,0 +1,36 @@
+
+.. _namespace_util:
+
+Namespace util
+==============
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+
+
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classutil_1_1Semaphore`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_Hex_8cpp_1a3cbb0d2c7022dda7204219a3fa18e24f`
+
+- :ref:`exhale_function_Hex_8cpp_1a2ae9e7a3e9289ea17e2a0db04bf03d78`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_Sema_8cpp_1ab8eb9dbffeb563840255ca4ddbb34643`

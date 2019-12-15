@@ -1,0 +1,17 @@
+.. _dir_src:
+
+
+Directory src
+=============
+
+
+*Directory path:* ``src``
+
+
+Files
+-----
+
+- :ref:`file_src_defaults.h`
+- :ref:`file_src_main.cpp`
+
+

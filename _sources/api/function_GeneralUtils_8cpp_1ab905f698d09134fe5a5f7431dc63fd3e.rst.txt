@@ -1,0 +1,13 @@
+.. _exhale_function_GeneralUtils_8cpp_1ab905f698d09134fe5a5f7431dc63fd3e:
+
+Function base64EncodedLength(size_t)
+====================================
+
+- Defined in :ref:`file_lib_WS_src_GeneralUtils.cpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: base64EncodedLength(size_t)

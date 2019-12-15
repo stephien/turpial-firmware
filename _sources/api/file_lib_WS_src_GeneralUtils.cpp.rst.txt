@@ -1,0 +1,87 @@
+
+.. _file_lib_WS_src_GeneralUtils.cpp:
+
+File GeneralUtils.cpp
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_lib_WS_src>` (``lib/WS/src``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``lib/WS/src/GeneralUtils.cpp``)
+--------------------------------------------
+
+
+.. toctree::
+   :maxdepth: 1
+
+   program_listing_file_lib_WS_src_GeneralUtils.cpp.rst
+
+
+
+
+
+Includes
+--------
+
+
+- ``FreeRTOS.h`` (:ref:`file_lib_WS_src_FreeRTOS.h`)
+
+- ``GeneralUtils.h`` (:ref:`file_lib_WS_src_GeneralUtils.h`)
+
+- ``esp_err.h``
+
+- ``esp_heap_caps.h``
+
+- ``esp_log.h``
+
+- ``esp_system.h``
+
+- ``esp_wifi.h``
+
+- ``iomanip``
+
+- ``nvs.h``
+
+- ``sstream``
+
+- ``stdio.h``
+
+- ``string``
+
+- ``string.h``
+
+
+
+
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1a2f1361b9bccc5736aecbd98803cb24c9`
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1a7411144c56c08ac97c24e7bf2ff8455e`
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1afa2a40d93e0fd333ad6fb20f816ba247`
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1ab905f698d09134fe5a5f7431dc63fd3e`
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1a9832eab2520df3451560e1b0ec6949fd`
+
+- :ref:`exhale_function_GeneralUtils_8cpp_1aa569d0da22756aeb5519b209daa42c11`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_GeneralUtils_8cpp_1aeaf3f12738fa64f3cccbe5b361d4c62d`
+
+- :ref:`exhale_variable_GeneralUtils_8cpp_1a328e9da88a07f3a0bf81b40d25469ff9`
+
